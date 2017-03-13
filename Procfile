@@ -1,1 +1,1 @@
-web: HUBOT_GITTER2_TOKEN=5df659597e5c1a64519c69245cfeeb64219c2102 bin/hubot -a gitter2 --name ourbot
+web: HUBOT_GITTER2_TOKEN=df1fc28b783a957fba52c438e3f237001232bf90 bin/hubot -a gitter2 --name ourbot
