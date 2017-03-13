@@ -10,10 +10,11 @@
 
 module.exports = (robot) ->
 
-
-  robot.hear /(.*)/i, (res) ->
-    console.log(res)
-    res.send res.message.text
+  robot.hear /\+startup/i, (res) ->
+    if res.message.text.indexOf(' ')+1
+      res.send res.message.text.substr(res.message.text.indexOf(' ')+1)
+    else
+      res.send "No parameter specified"
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
