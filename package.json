@@ -5,7 +5,6 @@
   "author": "laiko2012@yandex.ua",
   "description": "A simple helpful robot for your Company",
   "dependencies": {
-    "gists": "^0.1.2",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-gitter2": "^0.1.3",
