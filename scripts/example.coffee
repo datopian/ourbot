@@ -11,6 +11,7 @@
 module.exports = (robot) ->
 
   robot.hear /\+startup/i, (res) ->
+    console.log(res)
     if res.message.text.indexOf(' ')+1
       res.send "hello"
     else
