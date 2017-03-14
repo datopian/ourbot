@@ -3,7 +3,7 @@
   "hubot-help",
   "hubot-google-images",
   "hubot-google-translate",
-  "hubot-heroku-keepalive"
+  "hubot-heroku-keepalive",
   "hubot-pugme",
   "hubot-maps",
   "hubot-rules",
