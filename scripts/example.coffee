@@ -29,7 +29,7 @@ module.exports = (robot) ->
           if err
             res.send "Encountered an error :( #{err}"
             return
-          res.send "Hi " + body.html_url
+          res.send "Hi " + this.body.html_url
 
     else
       res.send "No parameter specified"
