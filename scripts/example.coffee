@@ -10,10 +10,10 @@
 
 module.exports = (robot) ->
 
-  robot.hear /\+startup/i, (res) ->
+  robot.hear /\+todo/i, (res) ->
     if res.message.text.indexOf(' ')+1
       data = JSON.stringify({
-        "description": "the description for this gist",
+        "description": "TODO",
         "public": true,
         "files": {
           "file1.txt": {
@@ -25,7 +25,8 @@ module.exports = (robot) ->
         .header('Content-Type', 'application/json')
         .header('Accept', 'application/vnd.github.v3+json')
         .post(data) (err, resp, body) ->
-          console.log(JSON.parse(body).html_url)
+          body = JSON.parse(body)
+          console.log(body.html_url)
           if err
             res.send "Encountered an error :( #{err}"
             return
