@@ -26,8 +26,6 @@ module.exports = (robot) ->
         .header('Accept', 'application/vnd.github.v3+json')
         .post(data) (err, resp, body) ->
           body = JSON.parse(body)
-          console.log(body)
-          console.log(body.html_url)
           if err
             res.send "Encountered an error :( #{err}"
             return
