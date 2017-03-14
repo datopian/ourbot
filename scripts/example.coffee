@@ -25,7 +25,7 @@ module.exports = (robot) ->
         .header('Content-Type', 'application/json')
         .header('Accept', 'application/vnd.github.v3+json')
         .post(data) (err, resp, body) ->
-          body = JSON.parse(body)
+          this.body = JSON.parse(body)
           if err
             res.send "Encountered an error :( #{err}"
             return
