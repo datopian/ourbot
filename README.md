@@ -1,4 +1,3 @@
-=======
 ChatOps Bot for our Gitter Chat Channel
 =======================================
 
