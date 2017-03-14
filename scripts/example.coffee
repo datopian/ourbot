@@ -11,9 +11,26 @@
 module.exports = (robot) ->
 
   robot.hear /\+startup/i, (res) ->
-    console.log(res)
     if res.message.text.indexOf(' ')+1
-      res.send "hello"
+      data = JSON.stringify({
+        "description": "the description for this gist",
+        "public": true,
+        "files": {
+          "file1.txt": {
+            "content": res.message.text.substr(res.message.text.indexOf(' ')+1)
+          }
+        }
+      })
+      robot.http("https://api.github.com/gists")
+        .header('Content-Type', 'application/json')
+        .header('Accept', 'application/vnd.github.v3+json')
+        .post(data) (err, resp, body) ->
+          console.log(err)
+          if err
+            res.send "Encountered an error :( #{err}"
+            return
+          res.send "Hi " + body.html_url
+
     else
       res.send "No parameter specified"
 
