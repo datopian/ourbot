@@ -10,29 +10,48 @@
 
 module.exports = (robot) ->
 
-  robot.hear /\+todo/i, (res) ->
-    if res.message.text.indexOf(' ')+1
-      data = JSON.stringify({
-        "description": "TODO",
-        "public": true,
-        "files": {
-          "file1.txt": {
-            "content": res.message.text.substr(res.message.text.indexOf(' ')+1)
-          }
-        }
-      })
-      robot.http("https://api.github.com/gists")
-        .header('Content-Type', 'application/json')
-        .header('Accept', 'application/vnd.github.v3+json')
-        .post(data) (err, resp, body) ->
-          this.body = JSON.parse(body)
-          if err
-            res.send "Encountered an error :( #{err}"
-            return
-          res.send "Hi " + this.body.html_url
+  messages = require('./messages.js').messages
+  messages.setAuth()
 
-    else
-      res.send "No parameter specified"
+  # setAuth = () ->
+  #   		doc.useServiceAccountAuth(creds, (err) -> console.log(err))
+  #
+  # setAuth()
+  #
+  # addRowDoc = (data) ->
+  #   doc.addRow('od6', data, (err, info) -> console.log(err))
+
+  robot.hear /\+todo/i, (res) ->
+      messages.sendMessage(res.message)
+    # messageText = res.message.text.indexOf(' ')+1
+    # assignees = res.message.text.substr(messageText).match(/(@.*\s)/)
+    # if !assignees
+    #   assignees = "none"
+    # else
+    #   assignees = assignees[0].trim()
+    # if messageText
+    #   addRowDoc({"action": " +todo", "timestamp": new Date().toLocaleString(), "poster": res.message.user.name, "assignees": assignees, "message": res.message.text.substr(messageText)})
+    #   res.send "Todo saved with text: " + res.message.text.substr(messageText)
+    # else
+    #   res.send "No parameter specified"
+      # data = JSON.stringify({
+      #   "description": "TODO",
+      #   "public": true,
+      #   "files": {
+      #     "file1.txt": {
+      #       "content": res.message.text.substr(res.message.text.indexOf(' ')+1)
+      #     }
+      #   }
+      # })
+      # robot.http("https://api.github.com/gists")
+      #   .header('Content-Type', 'application/json')
+      #   .header('Accept', 'application/vnd.github.v3+json')
+      #   .post(data) (err, resp, body) ->
+      #     this.body = JSON.parse(body)
+      #     if err
+      #       res.send "Encountered an error :( #{err}"
+      #       return
+
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
@@ -108,6 +127,8 @@ module.exports = (robot) ->
     res.send 'OK'
 
   robot.error (err, res) ->
+
+    console.log(err)
     robot.logger.error "DOES NOT COMPUTE"
 
     if res?

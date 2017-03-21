@@ -5,6 +5,12 @@
   "author": "laiko2012@yandex.ua",
   "description": "A simple helpful robot for your Company",
   "dependencies": {
+    "async": "^2.1.5",
+    "async-es": "^2.1.5",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-register": "^6.24.0",
+    "google-spreadsheet": "^2.0.3",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
     "hubot-gitter2": "^0.1.3",
@@ -21,5 +27,9 @@
   },
   "engines": {
     "node": "0.10.x"
+  },
+  "devDependencies": {
+    "hubot-test-helper": "^1.5.1",
+    "mocha": "^3.2.0"
   }
 }
