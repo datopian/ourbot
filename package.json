@@ -31,5 +31,8 @@
   "devDependencies": {
     "hubot-test-helper": "^1.5.1",
     "mocha": "^3.2.0"
+  },
+  "scripts": {
+    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script --compilers js:babel-core/register test/*.js"
   }
 }
