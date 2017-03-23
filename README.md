@@ -128,8 +128,27 @@ For standup doc (dates should be in reverse order - i.e. most recent item first)
 
 {message}
 ```
+### Setup
 
-# How to run
+You'll need to install coffee-script and hubot to run the app and tests. To install follow here:
+
+```
+npm install -g hubot coffee-script
+```
+
+Install the app:
+```
+# clone the repo
+git clone https://github.com/atomatichq/ourbot.git
+cd ourbot
+npm install
+```
+Run the tests
+```
+npm test
+```
+
+### How to run
 For running this one you need to do few really quick steps:
 
 __Google Sheets__
