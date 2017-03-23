@@ -175,6 +175,20 @@ __Gitter__
 2. Click Sign in and authorize
 3. You will be redirected in private area where you can find your API key, COPY IT!
 
+__Locally__
+1. Specify Google document: 
+    * Open or create google document
+      * Format your document with next columns: action, timestamp, poster, assignees, message
+    * Look at URL and find this one section:
+    * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
+    * Set it in config file as: ``` "workSheet": "15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
+    * Add email user from your service account to this gdoc
+2. Open terminal and go in project folder.
+3. Enter next script:
+  ```
+    HUBOT_GITTER2_TOKEN=<APIKEY which you get in previous step> bin/hubot -a gitter2 --name <name of your bot>
+  ```
+
 __Hubot and Heroku__
 1. In *Procfile* you need to specify launch code for heroku
 ```
