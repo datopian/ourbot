@@ -23,6 +23,7 @@ module.exports = (robot) ->
 
   robot.hear /\+todo/i, (res) ->
       messages.sendMessage(res.message)
+      
   robot.hear /\+standup/i, (res) ->
       messages.sendMessage(res.message)
       
