@@ -7,74 +7,9 @@ Our Hubot-based bot to automate lots of stuff including:
 
 - logging of specific messages from our (gitter) chat channel. See #1
 
-## Implementation
+## How to use it
 
-* Our chat channel is gitter. We would potentially have multiple rooms to connect to but the PoC could focus on one.
-
-* Use: Hubot as framework. There is a gitter adapter -  https://github.com/huafu/hubot-gitter2
-
-* We want to store items to one of the following locations:
-
-  * google doc
-  * gist
-  * [possibly] github issues or docs
-
-* Code should be written in ES6 rather than coffeescript (if possible)
-
-  * This should be possible - see https://coderinserepeat.com/2016/02/14/writing-hubot-scripts-using-es2015/ + https://github.com/github/hubot/issues/1009
-
-* Documentation: provide README.md with a summary of how things work plus installation instructions on e.g. Heroku
-
-* Tests: provide tests (use mocha)
-
-* Coding standards: follow https://github.com/okfn/coding-standards
-
-* Code should be on github - github.com/atomatichq eventually
-
-### MVP
-
-We are requesting an MVP not a full solution.
-
-For the MVP we want a basic daemon that:
-
-- [ ] Monitor one room
-  - [ ] Configure which rooms are to be monitored.
-- [ ] Monitor +standup and +todo tags (Should be configurable)
-- [ ] Write to a gdoc and a gist (configurable which one)
-  - Should support both of these -- for google docs will need auth access and for gist
-  - It is a different doc or gist for each tag e.g. +standup goes to different doc than +todo)
-- [ ] Handle error conditions
-- [ ] Tests (may need to mock)
-  - [ ] CI (bonus)
-- [ ] Basic README
-  - [ ] Deployment instructions e.g. heroku
-
-```javascript=
-// some of this should be auto loaded from environment variables (so we can config on heroku)
-
-// config.json
-{
-  github_auth:
-  gdocs_auth:
-  docs: {
-    "gist1": {
-      "type": "gist"
-    }
-    "gdocs1": {
-      "type": "gdocs"
-    }
-  }
-  monitor: {
-    "+todo": {
-      "action"": "log",
-      "dest": "gist1"
-    },
-    "+standup"
-  }
-}
-```
-
-Match tag at start, middle or end of a message:
+In your chat channle tag at start, middle or end of a message:
 
 ```
 +todo ...
@@ -83,14 +18,12 @@ Match tag at start, middle or end of a message:
 ... +todo
 ```
 
-Output in doc:
+This will get logged to the doc as:
 
 ```
 yyyy-mm-ddTHH:MM {message} [from:@{username}]
 
 ```
-
-Messages should be separated by a blank line
 
 ## Installation
 
@@ -114,7 +47,36 @@ npm test
 
 ### Configuration
 
-For running this one you need to do few really quick steps:
+For running this one you need to do few really quick steps.
+
+#### Configure the bot
+
+```javascript=
+// some of this should be auto loaded from environment variables (so we can config on heroku)
+
+// config.json
+{
+  github_auth:
+  gdocs_auth:
+  docs: {
+    "gist1": {
+      "type": "gist"
+    }
+    "gdocs1": {
+      "type": "gdocs"
+    }
+  }
+  monitor: {
+    "+todo": {
+      "action"": "log",
+      "dest": "gist1"
+    },
+    "+standup": ...
+  }
+}
+```
+
+This will then match +todo and log to gist1 doc.
 
 #### Gitter
 
