@@ -22,7 +22,7 @@ module.exports = (robot) ->
   console.log(config.docs[config.monitor['+todo'].dest])
 
   robot.hear /.*/i, (res) ->
-      message = res.message.text.split(' ', 1)
+      message = res.message.text.match(/\+[^*\s]+/)
       for key, val of config.monitor
           if(key == message[0])
               messages[config.docs[config.monitor[message[0]].dest].fun](res.message, (info) ->
