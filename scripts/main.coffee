@@ -29,48 +29,6 @@ module.exports = (robot) ->
                   console.log(info)
                   )
 
-
-
-  # robot.hear conf.keys, (res) ->
-  #     messages.sendMessage(res.message, (r) ->
-  #         console.log("Added at: " + r.updated))
-
-  # robot.hear /\+todo/i, (res) ->
-  #     messages.sendMessage(res.message, (r) ->
-  #         console.log("Added at: " + r.updated))
-  #
-  # robot.hear /\+standup/i, (res) ->
-  #     messages.sendMessage(res.message, (r) ->
-  #         console.log("Added at: " + r.updated))
-    # messageText = res.message.text.indexOf(' ')+1
-    # assignees = res.message.text.substr(messageText).match(/(@.*\s)/)
-    # if !assignees
-    #   assignees = "none"
-    # else
-    #   assignees = assignees[0].trim()
-    # if messageText
-    #   addRowDoc({"action": " +todo", "timestamp": new Date().toLocaleString(), "poster": res.message.user.name, "assignees": assignees, "message": res.message.text.substr(messageText)})
-    #   res.send "Todo saved with text: " + res.message.text.substr(messageText)
-    # else
-    #   res.send "No parameter specified"
-      # data = JSON.stringify({
-      #   "description": "TODO",
-      #   "public": true,
-      #   "files": {
-      #     "file1.txt": {
-      #       "content": res.message.text.substr(res.message.text.indexOf(' ')+1)
-      #     }
-      #   }
-      # })
-      # robot.http("https://api.github.com/gists")
-      #   .header('Content-Type', 'application/json')
-      #   .header('Accept', 'application/vnd.github.v3+json')
-      #   .post(data) (err, resp, body) ->
-      #     this.body = JSON.parse(body)
-      #     if err
-      #       res.send "Encountered an error :( #{err}"
-      #       return
-
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
 
