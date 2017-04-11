@@ -35,21 +35,22 @@ let sendMessage = function (message, callback) {
 }
 
 let formatMessage = function (message) {
-    let messageText = message.text.indexOf(' ')+1
-    let msg = message.text.substr(messageText)
-    if (!messageText) return null
-    let assignees = message.text.substr(messageText).match(/@[^*\s]+/)
+    let msg = message.text
+    let action = message.text.match(/\+[^*\s]+/)[0]
+    msg = msg.replace(action, '').trim()
+    if(!msg) return null
+    let assignees = message.text.match(/@[^*\s]+/)
     if (!assignees)
       assignees = "none"
     else {
       assignees = assignees[0].trim()
-      msg = message.text.substr(messageText).replace(assignees, '').trim()
+      msg = msg.replace(assignees, '').trim()
     }
 
     let name = message.user.name.substr(0, message.user.name.indexOf(' '))
 
     return {
-        "action": message.text.substr(1, messageText-2),
+        "action": action.trim().substring(1),
         "timestamp": new Date().toISOString(),
         "poster": "@" + message.user.login + " ("+ name +")",
         "assignees": assignees,
