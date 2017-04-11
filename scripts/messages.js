@@ -2,15 +2,15 @@ import GoogleSpreadsheet from 'google-spreadsheet';
 import * as creds from '../config.json';
 import async from 'async';
 
-let doc = new GoogleSpreadsheet(process.env.WORKSHEET)
+let doc = new GoogleSpreadsheet(process.env.GOOGLE_WORKSHEET)
 let worksheetinfo
 
 let setAuth = function (callback) {
     async.series([
         function setAuth(step) {
             doc.useServiceAccountAuth({
-                "private_key": process.env.PRIVATE_KEY,
-                "client_email": process.env.CLIENT_EMAIL
+                "private_key": process.env.GOOGLE_PRIVATE_KEY,
+                "client_email": process.env.GOOGLE_CLIENT_EMAIL
             }, step);
         },
         function getInfoAndWorksheets(step) {
