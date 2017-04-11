@@ -112,9 +112,9 @@ This will then match +todo and log to gist1 doc.
 ### Environment Variables
 1. Rename ```env.example``` to ```.env``` and set variables:
 ```
-GOOGLE_PRIVATE_KEY=<private_key from JSON file you get from Google>
-GOOGLE_CLIENT_EMAIL="client_email from JSON file you get from Google"
-GOOGLE_WORKSHEET="<Worksheed ID from URL of Google spreadsheet>"
+GOOGLE_PRIVATE_KEY="<private_key from JSON file you get from Google>"
+GOOGLE_CLIENT_EMAIL=<client_email from JSON file you get from Google>
+GOOGLE_WORKSHEET=<Worksheed ID from URL of Google spreadsheet>
 HUBOT_GITTER2_TOKEN=<Gitter tocken>
 ```
 
