@@ -12,22 +12,20 @@ module.exports = (robot) ->
 
 
   config = require('../config.json')
-
   messages = require('./messages.js').messages
 
   messages.setAuth((err, res) ->
       console.log("Logged in: " + res[1].title)
   )
 
-  console.log(config.docs[config.monitor['+todo'].dest])
-
   robot.hear /.*/i, (res) ->
       message = res.message.text.match(/\+[^*\s]+/)
       for key, val of config.monitor
-          if(key == message[0])
-              messages[config.docs[config.monitor[message[0]].dest].fun](res.message, (info) ->
-                  console.log(info)
-                  )
+          if(message != null)
+              if(key == message[0])
+                  messages[config.docs[config.monitor[message[0]].dest].fun](res.message, (info) ->
+                      console.log(info)
+                      )
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"
