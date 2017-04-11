@@ -102,42 +102,49 @@ This will then match +todo and log to gist1 doc.
   - your JSON key file is generated and downloaded to your machine (__it is the only copy!__)
   - note your service account's email address (also available in the JSON key file)
 5. Share the doc (or docs) with your service account using the email noted above
+6. Get Worksheet ID:
+    * Open or create google document
+      * Format your document with next columns: action, timestamp, poster, assignees, message
+    * Look at URL and find this one section:
+    * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
+    * Set it in .env file as: ``` GOOGLE_WORKSHEET="15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
 
 ### Environment Variables
 1. Rename ```env.example``` to ```.env``` and set variables:
 ```
-GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n<PRIVATE_KEY_CONTENT>\n-----END PRIVATE KEY-----\n"
-GOOGLE_CLIENT_EMAIL="example_email@developer.gserviceaccount.com"
-GOOGLE_WORKSHEET="sampleIdOfWorksheetww8Wer6Qw8hq8we"
+GOOGLE_PRIVATE_KEY=<private_key from JSON file you get from Google>
+GOOGLE_CLIENT_EMAIL="client_email from JSON file you get from Google"
+GOOGLE_WORKSHEET="<Worksheed ID from URL of Google spreadsheet>"
+HUBOT_GITTER2_TOKEN=<Gitter tocken>
 ```
-
-## Deployment
 
 ### Locally
 
-1. Specify Google document:
-    * Open or create google document
-      * Format your document with next columns: action, timestamp, poster, assignees, message
-    * Look at URL and find this one section:
-    * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
-    * Set it in config file as: ``` "workSheet": "15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
-    * Add email user from your service account to this gdoc
 2. Open terminal and go in project folder.
 3. Enter next script:
-  ```
-    HUBOT_GITTER2_TOKEN=<APIKEY which you get in previous step> bin/hubot -a gitter2 --name <name of your bot>
-  ```
+```
+  HUBOT_GITTER2_TOKEN=<APIKEY which you get in previous step> bin/hubot -a gitter2 --name ourbot
+```
 
 ### Heroku
 
-1. In *Procfile* you need to specify launch code for heroku
+Set the environment variables form `.env` for Heroku
+
 ```
-HUBOT_GITTER2_TOKEN=<APIKEY which you get in previous step> bin/hubot -a gitter2 --name <name of your bot>
+$ heroku config:set VARIABLE_NAME=VaRIabLE
+
+## Note: To set `GOOGLE_PRIVATE_KEY` you will have to remove all `\n`s with actual new lines
+
+$ heroku config:set GOOGLE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----
+your
+very
+long
+key
+-----END PRIVATE KEY-----"
 ```
-2. Also you need to specify workingsheet for google docs:
-    * Open or create google document
-      * Format your document with next columns: action, timestamp, poster, assignees, message
-    * Look at URL and find this one section:
-    * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
-    * Set it in config file as: ``` "workSheet": "15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
-3. Deploy on heroku
+
+Deploy on heroku
+
+```
+$ git push heroku master
+```
