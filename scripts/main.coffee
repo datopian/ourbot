@@ -24,7 +24,7 @@ module.exports = (robot) ->
           if(message != null)
               if(key == message[0])
                   messages[config.docs[config.monitor[message[0]].dest].fun](res.message, (info) ->
-                      console.log(info)
+                      console.log("Added at: " + info.updated)
                       )
 
   robot.hear /badger/i, (res) ->
