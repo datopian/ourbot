@@ -4,7 +4,7 @@ import async from 'async';
 import Gists from 'gists';
 import Gitter from 'node-gitter';
 
-let doc//new GoogleSpreadsheet(process.env.GOOGLE_WORKSHEET)
+let doc
 let worksheetinfo
 
 let gitter = new Gitter(process.env.HUBOT_GITTER2_TOKEN)
