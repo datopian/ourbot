@@ -14,10 +14,6 @@ module.exports = (robot) ->
   config = require('../config.json')
   messages = require('./messages.js').messages
 
-  # messages.setAuth((err, res) ->
-  #     console.log("Logged in: " + res[1].title)
-  # )
-
   robot.hear /.*/i, (res) ->
       message = res.message.text.match(/\+[^*\s]+/)
       for key, val of config.monitor
