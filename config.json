@@ -1,17 +1,30 @@
 {
     "docs": {
         "gdoc1": {
-            "fun": "sendMessage"
+            "fun": "sendMessage",
+            "dest": "15dxhLpRnc1_g2nWISYx7FpQfakbSXrh93cMRIuwsFow"
+        },
+        "gist1": {
+            "fun": "sendGist",
+            "dest": "37194074b35382376775bd9d6d81b552"
+        },
+        "gdoc2": {
+            "fun": "sendMessage",
+            "dest": "1y33AMhkEOBPBs_XJTHr2sOpyjpwmmZTCNm8EU7majMk"
         }
     },
     "monitor": {
         "+todo": {
             "action": "log",
-            "dest": "gdoc1"
+            "dest": "gist1"
         },
         "+standup": {
             "action": "log",
             "dest": "gdoc1"
+        },
+        "+example": {
+            "action": "log",
+            "dest": "gdoc2"
         }
     }
 }
