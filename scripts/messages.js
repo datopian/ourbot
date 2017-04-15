@@ -42,18 +42,17 @@ let sendGist = function (message, dest, callback) {
 }
 
 let sendMessage = function (message, dest, callback) {
-    doc = new GoogleSpreadsheet(dest)
-    setAuth(function (err, info) {
-        console.log(err)
-        if(!err) {
-            let messageObj = formatMessage(message, function (res) {
+    let messageObj = formatMessage(message, function (res) {
+        doc = new GoogleSpreadsheet(dest)
+        setAuth(function (err, info) {
+            console.log(err)
+            if(!err) {
                 doc.addRow(worksheetinfo.worksheets[0].id, res, function (err, info) {
                     if (err) console.log(err)
                     callback(info)
                 })
-            })
-            return "Specify parameters"
-        }
+            }
+        })
     })
 }
 
