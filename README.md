@@ -109,6 +109,13 @@ This will then match +todo and log to gist1 doc.
     * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
     * Set it in .env file as: ``` GOOGLE_WORKSHEET="15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
 
+
+### Gists
+
+1. You need to create gist, by the bot account with name "log.txt"
+2. Extract GIST_ID from it's url
+3. Set Environmen Variables for GISTS
+
 ### Environment Variables
 1. Rename ```env.example``` to ```.env``` and set variables:
 ```
@@ -116,6 +123,9 @@ GOOGLE_PRIVATE_KEY="<private_key from JSON file you get from Google>"
 GOOGLE_CLIENT_EMAIL=<client_email from JSON file you get from Google>
 GOOGLE_WORKSHEET=<Worksheed ID from URL of Google spreadsheet>
 HUBOT_GITTER2_TOKEN=<Gitter tocken>
+GIST_WORKSHEET="<GIST_ID>"
+GIST_PASSWORD="<BOT_PASSWORD>"
+GIST_USERNAME="<BOT_USERNAME>"
 ```
 
 ### Locally
