@@ -1,7 +1,7 @@
 ChatOps Bot for our Gitter Chat Channel
 =======================================
 
-[![Build Status](https://travis-ci.com/weirdGuy/gitterbot.svg?token=eKyEegu8wsqS6HDsxeah&branch=master)](https://travis-ci.com/weirdGuy/gitterbot)
+[![Build Status](https://travis-ci.org/datopian/ourbot.svg?branch=master)](https://travis-ci.org/datopian/ourbot)
 
 Our Hubot-based bot to automate lots of stuff including:
 
