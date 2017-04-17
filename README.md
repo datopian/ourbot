@@ -153,6 +153,20 @@ key
 -----END PRIVATE KEY-----"
 ```
 
+To set keepalive properly you need to define environment variables:
+* `HUBOT_HEROKU_KEEPALIVE_URL` - required, the complete URL to keepalive, including a trailing slash.
+* `HUBOT_HEROKU_WAKEUP_TIME` - optional,  the time of day (HH:MM) when hubot should wake up.  Default: 6:00 (6 am)
+* `HUBOT_HEROKU_SLEEP_TIME` - optional, the time of day (HH:MM) when hubot should go to sleep. Default: 22:00 (10 pm)
+* `HUBOT_HEROKU_KEEPALIVE_INTERVAL` - the interval in which to keepalive, in minutes. Default: 5
+
+You *must* set `HUBOT_HEROKU_KEEPALIVE_URL` and it *must* include a trailing slash – otherwise the script won't run. 
+You can find out the value for this by running `heroku apps:info`. Copy the `Web URL` and run:
+
+```
+heroku config:set HUBOT_HEROKU_KEEPALIVE_URL=PASTE_WEB_URL_HERE
+```
+For more additional info follow this [link](https://github.com/hubot-scripts/hubot-heroku-keepalive)
+
 Deploy on heroku
 
 ```
