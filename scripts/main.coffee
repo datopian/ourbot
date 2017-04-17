@@ -14,14 +14,19 @@ module.exports = (robot) ->
   config = require('../config.json')
   messages = require('./messages.js').messages
 
+  # messages.setAuth((err, res) ->
+  #     console.log("Logged in: " + res[1].title)
+  # )
+
   robot.hear /.*/i, (res) ->
       message = res.message.text.match(/\+[^*\s]+/)
       for key, val of config.monitor
           if(message != null)
               if(key == message[0])
-                  messages[config.docs[config.monitor[message[0]].dest].fun](res.message, config.docs[config.monitor[message[0]].dest].dest, (info) ->
-                      console.log("Added at: " + info.updated)
-                      )
+                  for de in config.monitor[message[0]].dest
+                      messages[config.docs[de].fun](res.message, config.docs[de].dest, (info) ->
+                          console.log("Added at: " + info.updated)
+                          )
 
   robot.hear /badger/i, (res) ->
     res.send "Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS"

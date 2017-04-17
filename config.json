@@ -16,15 +16,15 @@
     "monitor": {
         "+todo": {
             "action": "log",
-            "dest": "gist1"
+            "dest": ["gdoc1", "gist1"]
         },
         "+standup": {
             "action": "log",
-            "dest": "gdoc1"
+            "dest": ["gdoc1"]
         },
         "+example": {
             "action": "log",
-            "dest": "gdoc2"
+            "dest": ["gdoc2"]
         }
     }
 }
