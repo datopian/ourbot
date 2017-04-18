@@ -56,27 +56,39 @@ For running this one you need to do few really quick steps.
 
 // config.json
 {
-  github_auth:
-  gdocs_auth:
-  docs: {
-    "gist1": {
-      "type": "gist"
-    }
-    "gdocs1": {
-      "type": "gdocs"
-    }
-  }
-  monitor: {
-    "+todo": {
-      "action"": "log",
-      "dest": "gist1"
+    "docs": {
+        "gdoc1": {
+            "fun": "sendMessage",
+            "dest": "gdocid1"
+        },
+        "gist1": {
+            "fun": "sendGist",
+            "dest": "gistid"
+        },
+        "gdoc2": {
+            "fun": "sendMessage",
+            "dest": "gdocid2"
+        }
     },
-    "+standup": ...
-  }
+    "monitor": {
+        "+todo": {
+            "action": "log",
+            "dest": ["gdoc1", "gist1"]
+        },
+        "+standup": {
+            "action": "log",
+            "dest": ["gdoc1"]
+        },
+        "+example": {
+            "action": "log",
+            "dest": ["gdoc2"]
+        }
+    }
 }
 ```
 
-This will then match +todo and log to gist1 doc.
+With the configurations above bot will log `+todo`'s in one of Google docs and Gist,
+`+standup`'s only in Google doc and `+example` in another Google doc
 
 #### Gitter
 
@@ -107,28 +119,36 @@ This will then match +todo and log to gist1 doc.
       * Format your document with next columns: action, timestamp, poster, assignees, message
     * Look at URL and find this one section:
     * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
-    * Set it in .env file as: ``` GOOGLE_WORKSHEET="15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow" ```
-
+    * Set it to `dest` property in config.json:
+      ```
+      {
+        "docs": {
+          "gdoc1": {
+              "fun": "sendMessage",
+              "dest": "15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow"
+          },
+          ...
+      }
+      ```
 
 ### Gists
 
 1. You need to create gist, by the bot account with name "log.txt"
-2. Extract GIST_ID from it's url
-3. Set Environmen Variables for GISTS
+2. Extract gist id from it's URL
+3. Set it to `dest` property in config.json as shown in example above
 
 ### Environment Variables
+
 1. Rename ```env.example``` to ```.env``` and set variables:
 ```
 GOOGLE_PRIVATE_KEY="<private_key from JSON file you get from Google>"
 GOOGLE_CLIENT_EMAIL=<client_email from JSON file you get from Google>
-GOOGLE_WORKSHEET=<Worksheed ID from URL of Google spreadsheet>
 HUBOT_GITTER2_TOKEN=<Gitter tocken>
-GIST_WORKSHEET="<GIST_ID>"
-GIST_PASSWORD="<BOT_PASSWORD>"
 GIST_USERNAME="<BOT_USERNAME>"
+GIST_PASSWORD="<BOT_PASSWORD>"
 ```
 
-### Locally
+### Run Locally
 
 2. Open terminal and go in project folder.
 3. Enter next script:
@@ -153,19 +173,19 @@ key
 -----END PRIVATE KEY-----"
 ```
 
-To set keepalive properly you need to define environment variables:
+To keep bot alive on Heroku you need to set following environment variables:
 * `HUBOT_HEROKU_KEEPALIVE_URL` - required, the complete URL to keepalive, including a trailing slash.
 * `HUBOT_HEROKU_WAKEUP_TIME` - optional,  the time of day (HH:MM) when hubot should wake up.  Default: 6:00 (6 am)
 * `HUBOT_HEROKU_SLEEP_TIME` - optional, the time of day (HH:MM) when hubot should go to sleep. Default: 22:00 (10 pm)
 * `HUBOT_HEROKU_KEEPALIVE_INTERVAL` - the interval in which to keepalive, in minutes. Default: 5
 
-You *must* set `HUBOT_HEROKU_KEEPALIVE_URL` and it *must* include a trailing slash – otherwise the script won't run. 
+You *must* set `HUBOT_HEROKU_KEEPALIVE_URL` and it *must* include a trailing slash – otherwise the script won't run.
 You can find out the value for this by running `heroku apps:info`. Copy the `Web URL` and run:
 
 ```
 heroku config:set HUBOT_HEROKU_KEEPALIVE_URL=PASTE_WEB_URL_HERE
 ```
-For more additional info follow this [link](https://github.com/hubot-scripts/hubot-heroku-keepalive)
+For additional info follow this [link](https://github.com/hubot-scripts/hubot-heroku-keepalive)
 
 Deploy on heroku
 
