@@ -35,8 +35,10 @@ let setAuth = function (callback) {
 
 let sendGist = function (message, dest, callback) {
     gists.download({id: dest }, function(err, res) {
-        gists.edit({"description": "the description for this gist", "files": {"log.txt": { "content": res.files["log.txt"].content + "\n" + formatGist(message) }}, "id": dest }, function (err, inf) {
-            callback({"updated": res.updated_at})
+        formatGist(message, function (data) {
+            gists.edit({"description": "the description for this gist", "files": {"log.txt": { "content": res.files["log.txt"].content + "\n" + data }}, "id": dest }, function (err, inf) {
+                callback({"updated": res.updated_at})
+            })
         })
     });
 }
@@ -56,7 +58,7 @@ let sendMessage = function (message, dest, callback) {
     })
 }
 
-let formatGist = function (message) {
+let formatGist = function (message, callback) {
     let msg = message.text
     let action = message.text.match(/\+[^*\s]+/)[0]
     msg = msg.replace(action, '').trim()
@@ -71,7 +73,9 @@ let formatGist = function (message) {
 
     let name = message.user.name.substr(0, message.user.name.indexOf(' '))
 
-    return action.trim().substring(1) + " | " + new Date().toISOString() + " | " + "@" + message.user.login + " ("+ name +")" + " | " + assignees + " | " + msg
+    getRoom(message.room, function (roomid) {
+        callback(action.trim().substring(1) + ", " + new Date().toISOString() + ", " + "@" + message.user.login + " ("+ name +")" + ", " + roomid +", " + assignees + ", " + msg)
+    })
 
 }
 
@@ -79,6 +83,7 @@ let formatMessage = function (message, callback) {
     let msg = message.text
     let action = message.text.match(/\+[^*\s]+/)[0]
     msg = msg.replace(action, '').trim()
+
     if(!msg) return null
     let assignees = message.text.match(/@[^*\s]+/)
     if (!assignees)
@@ -87,9 +92,7 @@ let formatMessage = function (message, callback) {
       assignees = assignees[0].trim()
       msg = msg.replace(assignees, '').trim()
     }
-
     let name = message.user.name.substr(0, message.user.name.indexOf(' '))
-
     getRoom(message.room, function (roomid) {
         callback({
             "action": action.trim().substring(1),
@@ -112,5 +115,8 @@ let getRoom = function (roomId, callback) {
 exports.messages = {
     setAuth: setAuth,
     sendMessage: sendMessage,
-    sendGist: sendGist
+    sendGist: sendGist,
+    formatMessage: formatMessage,
+    formatGist: formatGist,
+    getRoom: getRoom
 };
