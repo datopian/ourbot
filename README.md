@@ -116,7 +116,7 @@ With the configurations above bot will log `+todo`'s in one of Google docs and G
 5. Share the doc (or docs) with your service account using the email noted above
 6. Get Worksheet ID:
     * Open or create google document
-      * Format your document with next columns: action, timestamp, poster, assignees, message
+      * Format your document with next columns: action, timestamp, poster, assignees, message, room
     * Look at URL and find this one section:
     * https://docs.google.com/spreadsheets/d/**15dxhLpRnc1_weGE2rdfSYx7FpQfakbSXrh93cMRIuwsFow**/edit#gid=0
     * Set it to `dest` property in config.json:
