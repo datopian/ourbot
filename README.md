@@ -30,8 +30,8 @@ yyyy-mm-ddTHH:MM {message} [from:@{username}]
 We deploy using Heroku.
 
 1. Configure the app with key config information
-2. Deploy the app to heroku in the normal way -  `git push heroku master` (our app name is ...)
-3. Setup `hubot-heroku-keepalive` to ensure Heroku does not put bot in idle state (in which case it will stop listening to the channel!)
+2. Deploy the app to heroku in the normal way - `git push heroku master` (our app name is `datopian-chatbot`)
+3. Setup `hubot-heroku-keepalive` per instructions https://github.com/hubot-scripts/hubot-heroku-keepalive This avoids Heroku putting bot in idle state which stops it listening to the channel.
 
 ## Configuration
 
