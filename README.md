@@ -18,11 +18,11 @@ In your chat channel tag at start, middle or end of a message:
 ... +todo
 ```
 
-This will get logged to the doc as:
+This will get logged to the Google doc, Gist or both (depends on configuration) with the following format:
 
 ```
-yyyy-mm-ddTHH:MM {message} [from:@{username}]
-
+action, timestamp, poster, assignees, message, room
++todo,yyyy-mm-ddTHH:MM,@{username}(name),@{username},your message,roomname
 ```
 
 # Deploying and Configuring the Bot
@@ -32,6 +32,8 @@ We deploy using Heroku.
 1. Configure the app with key config information
 2. Deploy the app to heroku in the normal way - `git push heroku master` (our app name is `datopian-chatbot`)
 3. Setup `hubot-heroku-keepalive` per instructions https://github.com/hubot-scripts/hubot-heroku-keepalive This avoids Heroku putting bot in idle state which stops it listening to the channel.
+
+At this point you should have scheduled time for bot to wake up, but you can do it manually as well, by just visiting https://datopian-chatbot.herokuapp.com/heroku/keepalive
 
 ## Configuration
 
