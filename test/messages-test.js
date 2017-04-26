@@ -1,40 +1,56 @@
+import Gists from 'gists'
+import Gitter from 'node-gitter'
+import Github from 'github-base'
 import async from 'async'
 import chai from 'chai'
+import assert from 'assert'
 import sinon from 'sinon'
 let messages = require('../scripts/messages.js').messages
-
+let formatting = require('../scripts/formatting.js').formatting
+let gdocs = require('../scripts/gdocs.js').gdocs
 
 describe('Google Docs and Gists Logging', function () {
-    it('Google Docs messaging', function () {
-        let message = {
-            "text": "+todo testing @test",
-            "user": {
-                "name": "test"
-            }
-        }
-        sinon.stub(messages, "sendMessage", function () {
-            return "0"
+    let format
+    let auth
+    let gitGist
+    let gitGistPatch
+    let gDoc
+    beforeEach(function () {
+        format = sinon.stub(formatting, "getRoom").resolves({"name": "test"})
+        auth = sinon.stub(async, "series").callsFake(function (arr, cb) {
+            cb(null, [null, {"worksheets":[{"id":"1"}]}])
         })
 
-        messages.sendMessage(message, "dest", function (inf) {})
-
-        sinon.assert.calledOnce(messages.sendMessage)
-
-    })
-
-    it('Gist messaging', function () {
-        let message = {
-            "text": "+todo testing @test",
-            "user": {
-                "name": "test"
-            }
-        }
-        sinon.stub(messages, "sendGist", function () {
-            return "0"
+        gitGist = sinon.stub(Github.prototype, "get").callsFake(function (path, data, cb) {
+            cb(null, {"files":{"log.txt":{"content": "hello"}}, "updated_at": "yes"})
+        })
+        gitGistPatch = sinon.stub(Github.prototype, "patch").callsFake(function (path, data, cb) {
+            cb({"updated_at": "yes"})
         })
 
-        messages.sendGist(message, "dest", function (inf) {})
-
-        sinon.assert.calledOnce(messages.sendGist)
+        gDoc = sinon.stub(gdocs, "addRow").callsFake(function (id, row, callback) {
+            callback(null, "Done")
+        })
     })
+
+    afterEach(function () {
+        format.restore()
+        auth.restore()
+        gitGist.restore()
+        gitGistPatch.restore()
+        gDoc.restore()
+    })
+
+    it('Gist sending', function () {
+        messages.sendGist({"text": "+todo do this", "user": {"login":"test", "name": "Test (@Test)"}, "room": "sadqwewqeqw"}, "me", function (info) {
+            assert.equal(info.updated, "yes")
+        })
+    })
+
+    it('GDoc sending', function () {
+        messages.sendMessage({"text": "+todo do this", "user": {"login":"test", "name": "Test (@Test)"}, "room": "sadqwewqeqw"}, "me", function (info) {
+            assert.equal(info, "Done")
+        })
+    })
+
 })

@@ -13,13 +13,14 @@ module.exports = (robot) ->
 
   config = require('../config.json')
   messages = require('./messages.js').messages
+  formatting = require('./formatting.js').formatting
 
   robot.hear /.*/i, (res) ->
-      message = res.message.text.match(/\+[^*\s]+/)
+      message = formatting.getDataMask(res.message.text, /\+[^*\s]+/)
       for key, val of config.monitor
           if(message != null)
-              if(key == message[0])
-                  for de in config.monitor[message[0]].dest
+              if(key == message)
+                  for de in config.monitor[message].dest
                       messages[config.docs[de].fun](res.message, config.docs[de].dest, (info) ->
                           console.log("Added at: " + info.updated)
                           )

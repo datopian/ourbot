@@ -1,11 +1,7 @@
-import GoogleSpreadsheet from 'google-spreadsheet';
-import * as creds from '../config.json';
-import async from 'async';
 import Gists from 'gists';
 import Gitter from 'node-gitter';
-
-let doc
-let worksheetinfo
+let formatting = require('./formatting.js').formatting
+let gdocs = require('./gdocs.js').gdocs
 
 let gitter = new Gitter(process.env.HUBOT_GITTER2_TOKEN)
 
@@ -14,26 +10,7 @@ let gists = new Gists({
     password: process.env.GIST_PASSWORD
 })
 
-
-
-let setAuth = function (callback) {
-    async.series([
-        function setAuth(step) {
-            doc.useServiceAccountAuth({
-                "private_key": process.env.GOOGLE_PRIVATE_KEY,
-                "client_email": process.env.GOOGLE_CLIENT_EMAIL
-            }, step);
-        },
-        function getInfoAndWorksheets(step) {
-            doc.getInfo(function(err, info) {
-                worksheetinfo = info
-                step(null, worksheetinfo)
-            });
-        }
-    ], callback);
-}
-
-let sendGist = function (message, dest, callback) {
+let sendGist = (message, dest, callback) => {
     gists.download({id: dest }, function(err, res) {
         formatGist(message, function (data) {
             gists.edit({"description": "the description for this gist", "files": {"log.txt": { "content": res.files["log.txt"].content + "\n" + data }}, "id": dest }, function (err, inf) {
@@ -43,13 +20,11 @@ let sendGist = function (message, dest, callback) {
     });
 }
 
-let sendMessage = function (message, dest, callback) {
-    let messageObj = formatMessage(message, function (res) {
-        doc = new GoogleSpreadsheet(dest)
-        setAuth(function (err, info) {
-            console.log(err)
+let sendMessage = (message, dest, callback) => {
+    formatMessage(message, function (res) {
+        gdocs.setAuth(dest, function (err, info) {
             if(!err) {
-                doc.addRow(worksheetinfo.worksheets[0].id, res, function (err, info) {
+                gdocs.addRow(info[1].worksheets[0].id, res, function (err, info) {
                     if (err) console.log(err)
                     callback(info)
                 })
@@ -58,65 +33,39 @@ let sendMessage = function (message, dest, callback) {
     })
 }
 
-let formatGist = function (message, callback) {
-    let msg = message.text
-    let action = message.text.match(/\+[^*\s]+/)[0]
-    msg = msg.replace(action, '').trim()
-    if(!msg) return null
-    let assignees = message.text.match(/@[^*\s]+/)
-    if (!assignees)
-      assignees = "none"
-    else {
-      assignees = assignees[0].trim()
-      msg = msg.replace(assignees, '').trim()
-    }
+let formatGist = (message, callback) => {
+    let action = formatting.getDataMask(message.text, /\+[^*\s]+/)
+    let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
+    let name = formatting.getName(message.user.name)
+    let msg = formatting.removeFromMessage(message.text, action)
 
-    let name = message.user.name.substr(0, message.user.name.indexOf(' '))
-
-    getRoom(message.room, function (roomid) {
-        callback(action.trim().substring(1) + ", " + new Date().toISOString() + ", " + "@" + message.user.login + " ("+ name +")" + ", " + roomid +", " + assignees + ", " + msg)
+    formatting.getRoom(message.room).then(function (room) {
+        callback(action.substr(1) + "," + new Date().toISOString() + "," + "@" + message.user.login + " ("+ name +")" + "," + room.name +"," + assignees + "," + formatting.removeFromMessage(msg, assignees))
     })
-
 }
 
-let formatMessage = function (message, callback) {
-    let msg = message.text
-    let action = message.text.match(/\+[^*\s]+/)[0]
-    msg = msg.replace(action, '').trim()
+let formatMessage = (message, callback) => {
+    let action = formatting.getDataMask(message.text, /\+[^*\s]+/)
+    let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
+    let name = formatting.getName(message.user.name)
+    let msg = formatting.removeFromMessage(message.text, action)
 
-    if(!msg) return null
-    let assignees = message.text.match(/@[^*\s]+/)
-    if (!assignees)
-      assignees = "none"
-    else {
-      assignees = assignees[0].trim()
-      msg = msg.replace(assignees, '').trim()
-    }
-    let name = message.user.name.substr(0, message.user.name.indexOf(' '))
-    getRoom(message.room, function (roomid) {
+    formatting.getRoom(message.room).then(function (room) {
         callback({
-            "action": action.trim().substring(1),
+            "action": action.substr(1),
             "timestamp": new Date().toISOString(),
             "poster": "@" + message.user.login + " ("+ name +")",
             "assignees": assignees,
-            "message": msg,
-            "room": roomid
+            "message": formatting.removeFromMessage(msg, assignees),
+            "room": room.name
         })
     })
 }
 
-let getRoom = function (roomId, callback) {
-    gitter.rooms.find(roomId)
-    .then(function(room) {
-        callback(room.name)
-    })
-}
 
 exports.messages = {
-    setAuth: setAuth,
     sendMessage: sendMessage,
     sendGist: sendGist,
     formatMessage: formatMessage,
-    formatGist: formatGist,
-    getRoom: getRoom
+    formatGist: formatGist
 };
