@@ -8,7 +8,7 @@ let formatting = require('../scripts/formatting.js').formatting
 let expect = chai.expect
 
 
-let helper = new Helper('../scripts/main.coffee')
+let helper = new Helper('../scripts/main.js')
 
 describe('Messages parsing', function () {
     let msg
