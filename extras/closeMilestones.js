@@ -16,7 +16,8 @@ let repos = [
   {owner: 'datahq', repo: 'specstore'},
   {owner: 'datahq', repo: 'core-datasets-tools'},
   {owner: 'frictionlessdata', repo: 'datapackage-render-js'},
-  {owner: 'frictionlessdata', repo: 'dpr-js'}
+  {owner: 'frictionlessdata', repo: 'dpr-js'},
+  {owner: 'datahq', repo: 'data.js'}
 ]
 repos.forEach(repo => {
   let issueObj = new Issue(repo.owner+'/'+repo.repo, {token: ''})
