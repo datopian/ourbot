@@ -14,6 +14,7 @@ let repos = [
   {owner: 'datahq', repo: 'assembler'},
   {owner: 'datahq', repo: 'pm'},
   {owner: 'datahq', repo: 'specstore'},
+  {owner: 'datahq', repo: 'resolver'},
   {owner: 'datahq', repo: 'core-datasets-tools'},
   {owner: 'frictionlessdata', repo: 'datapackage-render-js'},
   {owner: 'frictionlessdata', repo: 'dpr-js'},
