@@ -35,6 +35,9 @@ module.exports = (robot) => {
     robot.hear(/badger/i, (res) => {
         res.send("Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS")
     })
+    robot.hear(/ourbot help/i, (res) => {
+        res.send("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#how-to-use-it")
+    })
 
     robot.error((err, res) => {
         console.log(err)
