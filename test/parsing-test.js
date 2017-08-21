@@ -7,7 +7,7 @@ let formatting = require('../scripts/formatting.js').formatting
 
 let expect = chai.expect
 
-
+let scriptHelper = new Helper('./scripts/specific-script.coffee')
 let helper = new Helper('../scripts/main.js')
 
 describe('Messages parsing', function () {
@@ -29,6 +29,51 @@ describe('Messages parsing', function () {
         sendMsg.restore()
         sendGst.restore()
         getRoom.restore()
+    })
+    it('starting with bot should reply help message', function () {
+      return room.user.say('mikanebu', "bot help").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('starting with /bot should reply help message', function () {
+      return room.user.say('mikanebu', "/bot help").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('only word bot should reply help message', function () {
+      return room.user.say('mikanebu', "bot").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('only word /bot should reply help message', function () {
+      return room.user.say('mikanebu', "/bot").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('containing not only bot should not reply help message', function () {
+      return room.user.say('mikanebu', "bot test").then(function () {
+        assert.equal((room.messages).length, 1)
+      })
+    })
+
+    it('ending with bot should not reply help message', function () {
+      return room.user.say('mikanebu', "our friend is bot").then(function () {
+        assert.equal((room.messages).length, 1)
+      })
+    })
+
+    it('having bot in the middle of sentence should not reply help message', function () {
+      return room.user.say('mikanebu', "this is our bot for DataHub").then(function () {
+        assert.equal((room.messages).length, 1)
+      })
     })
 
     it('Action getting', function () {
@@ -81,35 +126,35 @@ describe('Messages parsing', function () {
     })
 
     it('Typo in tag', function () {
-        room.user.say('weirdguy', "+tod do this one").then(function () {
+        return room.user.say('weirdguy', "+tod do this one").then(function () {
             assert.equal(sendMsg.callCount, 0)
             assert.equal(sendGst.callCount, 0)
         })
     })
 
     it('Without typo in tag', function () {
-        room.user.say('weirdguy', "+todo do this one").then(function () {
+        return room.user.say('weirdguy', "+todo do this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
             assert.equal(sendGst.callCount, 1)
         })
     })
 
     it('Without any tag', function () {
-        room.user.say('weirdguy', "do this one").then(function () {
+        return room.user.say('weirdguy', "do this one").then(function () {
             assert.equal(sendMsg.callCount, 0)
             assert.equal(sendGst.callCount, 0)
         })
     })
 
     it('Tag in middle', function () {
-        room.user.say('weirdguy', "do +todo this one").then(function () {
+        return room.user.say('weirdguy', "do +todo this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
             assert.equal(sendGst.callCount, 1)
         })
     })
 
     it('Tag in the end', function () {
-        room.user.say('weirdguy', "do this one +todo").then(function () {
+        return room.user.say('weirdguy', "do this one +todo").then(function () {
             assert.equal(sendMsg.callCount, 1)
             assert.equal(sendGst.callCount, 1)
         })

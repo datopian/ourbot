@@ -9,7 +9,14 @@ Our Hubot-based bot to automate lots of stuff including:
 
 # How to use it
 
-In your chat channel tag at start, middle or end of a message:
+To get `help` command, run the following code:
+`bot help` - to get general help message information
+
+`/bot` or `bot` - to see available functionalities of `bot`. 
+
+## TODOs
+
+In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`
 
 ```
 +todo ...

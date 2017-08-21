@@ -31,9 +31,18 @@ module.exports = (robot) => {
             }
         }
     })
-
     robot.hear(/badger/i, (res) => {
         res.send("Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS")
+    })
+    robot.hear(/bot help|bot/i, (res) => {
+        var message = res.message.text
+        message = message.split(' ')
+        if(message.length == 1 && (message[0] === "bot" || message[0] === "/bot")){
+            res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#todos\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
+          }
+        else if(message.length == 2 && (message[0] === "bot" && message[1] === "help") || (message[0] === "/bot" && message[1] === "help")){
+            res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#todos\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
+          }
     })
 
     robot.error((err, res) => {
