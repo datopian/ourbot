@@ -30,6 +30,18 @@ describe('Messages parsing', function () {
         sendGst.restore()
         getRoom.restore()
     })
+    it('return +todo gdocs url', function () {
+      return room.user.say('mikanebu', "bot which todos gdocs").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+    it('return +todo gist url', function () {
+      return room.user.say('mikanebu', "bot which todos gist").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
+        assert.equal((room.messages).length, 2)
+      })
+    })
     it('starting with bot should reply help message', function () {
       return room.user.say('mikanebu', "bot help").then(function () {
         assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")

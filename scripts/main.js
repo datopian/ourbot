@@ -37,14 +37,23 @@ module.exports = (robot) => {
     robot.hear(/bot help|bot/i, (res) => {
         var message = res.message.text
         message = message.split(' ')
-        if(message.length == 1 && (message[0] === "bot" || message[0] === "/bot")){
+        if(message.length === 1 && (message[0] === "bot" || message[0] === "/bot")){
             res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#todos\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
           }
         else if(message.length == 2 && (message[0] === "bot" && message[1] === "help") || (message[0] === "/bot" && message[1] === "help")){
             res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#todos\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
           }
     })
-
+    robot.hear(/bot which todos/i, (res) => {
+        var message = res.message.text
+        message = message.split(' ')
+        if(message.length === 4 && message[3] === "gist") {
+            res.reply("https://gist.github.com/datopianbot/"+process.env.GIST_WORKSHEET)
+        }
+        else if(message.length === 4 && message[3] === "gdocs") {
+            res.reply("https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET)
+        }
+    })
     robot.error((err, res) => {
         console.log(err)
         robot.logger.error("DOES NOT COMPUTE")
