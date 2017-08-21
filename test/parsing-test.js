@@ -31,21 +31,51 @@ describe('Messages parsing', function () {
         getRoom.restore()
     })
     it('starting with bot should reply help message', function () {
-      return room.user.say('mikanebu', "bot is our friend").then(function () {
+      return room.user.say('mikanebu', "bot help").then(function () {
         assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
         assert.equal((room.messages).length, 2)
       })
     })
+
+    it('starting with /bot should reply help message', function () {
+      return room.user.say('mikanebu', "/bot help").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('only word bot should reply help message', function () {
+      return room.user.say('mikanebu', "bot").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('only word /bot should reply help message', function () {
+      return room.user.say('mikanebu', "/bot").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+
+    it('containing not only bot should not reply help message', function () {
+      return room.user.say('mikanebu', "bot test").then(function () {
+        assert.equal((room.messages).length, 1)
+      })
+    })
+
     it('ending with bot should not reply help message', function () {
       return room.user.say('mikanebu', "our friend is bot").then(function () {
         assert.equal((room.messages).length, 1)
       })
     })
+
     it('having bot in the middle of sentence should not reply help message', function () {
       return room.user.say('mikanebu', "this is our bot for DataHub").then(function () {
         assert.equal((room.messages).length, 1)
       })
     })
+
     it('Action getting', function () {
         assert.equal(formatting.getDataMask(msg, /\+[^*\s]+/), "+todo")
     })
@@ -115,14 +145,14 @@ describe('Messages parsing', function () {
             assert.equal(sendGst.callCount, 0)
         })
     })
-    
+
     it('Tag in middle', function () {
         return room.user.say('weirdguy', "do +todo this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
             assert.equal(sendGst.callCount, 1)
         })
     })
-    
+
     it('Tag in the end', function () {
         return room.user.say('weirdguy', "do this one +todo").then(function () {
             assert.equal(sendMsg.callCount, 1)
