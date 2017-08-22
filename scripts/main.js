@@ -44,14 +44,11 @@ module.exports = (robot) => {
             res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#todos\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
           }
     })
-    robot.hear(/bot which todos/i, (res) => {
+    robot.hear(/bot todos/i, (res) => {
         var message = res.message.text
         message = message.split(' ')
-        if(message.length === 4 && message[3] === "gist") {
-            res.reply("https://gist.github.com/datopianbot/"+process.env.GIST_WORKSHEET)
-        }
-        else if(message.length === 4 && message[3] === "gdocs") {
-            res.reply("https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET)
+        if(message.length === 2) {
+            res.reply("https://gist.github.com/datopianbot/"+process.env.GIST_WORKSHEET+"\n"+"https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET)
         }
     })
     robot.error((err, res) => {

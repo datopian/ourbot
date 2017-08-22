@@ -31,13 +31,8 @@ describe('Messages parsing', function () {
         getRoom.restore()
     })
     it('return +todo gdocs url', function () {
-      return room.user.say('mikanebu', "bot which todos gdocs").then(function () {
-        assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
-        assert.equal((room.messages).length, 2)
-      })
-    })
-    it('return +todo gist url', function () {
-      return room.user.say('mikanebu', "bot which todos gist").then(function () {
+      return room.user.say('mikanebu', "bot todos").then(function () {
+        console.log(room.messages)
         assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
         assert.equal((room.messages).length, 2)
       })
