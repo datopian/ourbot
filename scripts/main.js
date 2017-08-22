@@ -52,11 +52,11 @@ module.exports = (robot) => {
         }
     })
     robot.error((err, res) => {
-        console.log(err)
-        robot.logger.error("DOES NOT COMPUTE")
+        console.log(err.message)
+        robot.logger.error(err.message)
 
         if(res !== null) {
-            res.reply("DOES NOT COMPUTE")
+            res.reply(err.message)
         }
     })
 }

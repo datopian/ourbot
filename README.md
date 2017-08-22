@@ -16,6 +16,11 @@ To get `help` command, run the following code:
 
 ## TODOs
 
+To get url for todos:
+```
+bot todos
+```
+
 In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`
 
 ```
