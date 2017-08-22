@@ -31,9 +31,6 @@ module.exports = (robot) => {
             }
         }
     })
-    robot.hear(/badger/i, (res) => {
-        res.send("Badgers? BADGERS? WE DON'T NEED NO STINKIN BADGERS")
-    })
     robot.hear(/bot help|bot/i, (res) => {
         var message = res.message.text
         message = message.split(' ')
@@ -52,11 +49,11 @@ module.exports = (robot) => {
         }
     })
     robot.error((err, res) => {
-        console.log(err.message)
-        robot.logger.error(err.message)
+        console.log(err)
+        robot.logger.error("DOES NOT COMPUTE")
 
         if(res !== null) {
-            res.reply(err.message)
+            res.reply("DOES NOT COMPUTE")
         }
     })
 }

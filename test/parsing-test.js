@@ -32,7 +32,6 @@ describe('Messages parsing', function () {
     })
     it('return +todo gdocs url', function () {
       return room.user.say('mikanebu', "bot todos").then(function () {
-        console.log(room.messages)
         assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
         assert.equal((room.messages).length, 2)
       })
