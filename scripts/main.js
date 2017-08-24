@@ -45,7 +45,7 @@ module.exports = (robot) => {
         var message = res.message.text
         message = message.split(' ')
         if(message.length === 2) {
-            res.reply("https://gist.github.com/datopianbot/"+process.env.GIST_WORKSHEET+"\n"+"https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET)
+            res.reply("https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET)
         }
     })
     robot.error((err, res) => {

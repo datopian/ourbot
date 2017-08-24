@@ -12,7 +12,7 @@
     "monitor": {
         "+todo": {
             "action": "log",
-            "dest": ["gdoc1", "gist1"]
+            "dest": ["gdoc1"]
         },
         "+standup": {
             "action": "log",

@@ -141,7 +141,7 @@ describe('Messages parsing', function () {
     it('Without typo in tag', function () {
         return room.user.say('weirdguy', "+todo do this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
-            assert.equal(sendGst.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
         })
     })
 
@@ -155,14 +155,14 @@ describe('Messages parsing', function () {
     it('Tag in middle', function () {
         return room.user.say('weirdguy', "do +todo this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
-            assert.equal(sendGst.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
         })
     })
 
     it('Tag in the end', function () {
         return room.user.say('weirdguy', "do this one +todo").then(function () {
             assert.equal(sendMsg.callCount, 1)
-            assert.equal(sendGst.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
         })
     })
 });
