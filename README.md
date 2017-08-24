@@ -14,7 +14,7 @@ To get `help` command, run the following code:
 
 `/bot` or `bot` - to see available functionalities of `bot`. 
 
-## TODOs
+## Commands
 
 To get url for todos:
 ```
