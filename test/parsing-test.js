@@ -38,7 +38,7 @@ describe('Messages parsing', function () {
         getRoom.restore()
     })
     
-    it('+lin in the beginning', function () {
+    it('+link in the beginning', function () {
         return room.user.say('weirdguy', "+link do this one").then(function () {
             assert.equal(sendMsg.callCount, 1)
             assert.equal(sendGst.callCount, 0)
