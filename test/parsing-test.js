@@ -5,6 +5,7 @@ import assert from 'assert'
 let messages = require('../scripts/messages.js').messages
 let formatting = require('../scripts/formatting.js').formatting
 let milestone = require('../scripts/milestone.js')
+let issue = require('../scripts/issue.js')
 
 let expect = chai.expect
 
@@ -17,9 +18,11 @@ describe('Messages parsing', function () {
     let sendMsg
     let sendGst
     let getRoom
+    let createIssue
     let createMilestone
     let closeMilestone
     beforeEach(function () {
+        createIssue = sinon.stub(issue, "createIssue")
         createMilestone = sinon.stub(milestone, "createMilestone")
         closeMilestone = sinon.stub(milestone, "closeMilestone")
         sendMsg = sinon.stub(messages, "sendMessage")
@@ -31,13 +34,19 @@ describe('Messages parsing', function () {
 
     afterEach(function () {
         room.destroy()
+        createIssue.restore()
         createMilestone.restore()
         closeMilestone.restore()
         sendMsg.restore()
         sendGst.restore()
         getRoom.restore()
     })
-    
+    it('create issue', function () {
+        return room.user.say('mikanebu', `bot issue "This is test issue" about "We want to test" in "datahq/docs""`).then(function () {
+            assert.equal(createIssue.callCount, 1)
+            assert.equal(room.messages[1][1].substr(0, 15), "@mikanebu Issue")
+        })
+    })
     it('+link in the beginning', function () {
         return room.user.say('weirdguy', "+link do this one").then(function () {
             assert.equal(sendMsg.callCount, 1)

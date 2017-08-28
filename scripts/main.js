@@ -14,6 +14,7 @@ module.exports = (robot) => {
     let messages = require('./messages.js').messages
     let formatting = require('./formatting.js').formatting
     let {createMilestone,closeMilestone} = require("./milestone.js")
+    let {createIssue} = require("./issue.js")
     let moment = require('moment')
     robot.hear(/.*/i, (res) => {
         let key, val, de, ref
@@ -72,6 +73,15 @@ module.exports = (robot) => {
             closeMilestone(title)
             res.reply("Milestones successfully closed")
         }
+    })
+    
+    robot.hear(/bot issue "([^"]+)"(?: (?:about|regarding|re|body|description) "([^"]+)")?(?: in "([\w\d-_]+)(?:\/([\w\d-_]+))?")/i, (res) => {
+        let title = res.match[1]
+        let body = res.match[2]
+        let org = res.match[3]
+        let repo = res.match[4]
+        createIssue(title, body, org, repo)
+        res.reply("Issue created at 'https://github.com/"+org+"/"+repo+"/issues")
     })
 
     robot.hear(/bot help|bot/i, (res) => {

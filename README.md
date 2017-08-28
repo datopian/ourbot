@@ -39,6 +39,19 @@ bot create milestone all "15 Sept 2017"
 bot close milestone "Sprint - 15 Sept 2017" in "datahq/docs"
 ```
 
+To create an issue on GitHub:
+
+```
+bot issue "title" about "body" in "myorg/myrepo"
+```
+`title` - the title of the issue.
+`body` - the contents of the issue.
+
+Example:
+```
+bot issue "This is test issue" about "We want to test our bot create  command" in "datahq/docs"
+```
+
 To get url for todos and links:
 ```
 bot todos
