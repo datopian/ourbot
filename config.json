@@ -22,5 +22,23 @@
             "action": "log",
             "dest": ["gdoc1"]
         }
-    }
+    },
+    "repos": [
+      {"owner": "datahq", "repo": "docs"},
+      {"owner": "datahq", "repo": "datahub-cli"},
+      {"owner": "datahq", "repo": "frontend"},
+      {"owner": "datahq", "repo": "auth"},
+      {"owner": "datahq", "repo": "datapackage-pipelines-datahub"},
+      {"owner": "datahq", "repo": "bitstore"},
+      {"owner": "datahq", "repo": "deploy"},
+      {"owner": "datahq", "repo": "metastore"},
+      {"owner": "datahq", "repo": "assembler"},
+      {"owner": "datahq", "repo": "pm"},
+      {"owner": "datahq", "repo": "specstore"},
+      {"owner": "datahq", "repo": "core-datasets-tools"},
+      {"owner": "datahq", "repo": "resolver"},
+      {"owner": "frictionlessdata", "repo": "datapackage-render-js"},
+      {"owner": "frictionlessdata", "repo": "dpr-js"},
+      {"owner": "datahq", "repo": "data.js"}
+    ]
 }

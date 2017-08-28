@@ -13,6 +13,7 @@
     "coffee-script": "1.8.0",
     "dotenv": "^4.0.0",
     "gists": "^0.1.2",
+    "github-api": "^3.0.0",
     "google-spreadsheet": "^2.0.3",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
@@ -27,6 +28,7 @@
     "hubot-rules": "^0.1.1",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
+    "moment": "^2.18.1",
     "node-gitter": "^2.0.5"
   },
   "engines": {
@@ -39,6 +41,7 @@
     "sinon": "^2.1.0"
   },
   "scripts": {
-    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script --compilers js:babel-core/register test/*.js"
+    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script --compilers js:babel-core/register test/*.js",
+    "watch:test": "npm t -- --watch"
   }
 }
