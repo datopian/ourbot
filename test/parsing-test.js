@@ -37,7 +37,25 @@ describe('Messages parsing', function () {
         sendGst.restore()
         getRoom.restore()
     })
-  
+    
+    it('+lin in the beginning', function () {
+        return room.user.say('weirdguy', "+link do this one").then(function () {
+            assert.equal(sendMsg.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
+        })
+    })
+    it('+link in the middle', function () {
+        return room.user.say('weirdguy', "do this +link one").then(function () {
+            assert.equal(sendMsg.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
+        })
+    })
+    it('+link in the end', function () {
+        return room.user.say('weirdguy', "do this one +link").then(function () {
+            assert.equal(sendMsg.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
+        })
+    })
     it('create milestone', function () {
         return room.user.say('mikanebu', `bot create milestone "13 Jan 2018" in "datahq/docs"`).then(function () {
             assert.equal(createMilestone.callCount, 1)
@@ -96,6 +114,12 @@ describe('Messages parsing', function () {
     })
     it('return +todo gdocs url', function () {
       return room.user.say('mikanebu', "bot todos").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
+        assert.equal((room.messages).length, 2)
+      })
+    })
+    it('return +link gdocs url', function () {
+      return room.user.say('mikanebu', "bot links").then(function () {
         assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
         assert.equal((room.messages).length, 2)
       })

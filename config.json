@@ -21,6 +21,10 @@
         "+example": {
             "action": "log",
             "dest": ["gdoc1"]
+        },
+        "+link": {
+            "action": "log",
+            "dest": ["gdoc1"]
         }
     },
     "repos": [

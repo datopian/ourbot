@@ -23,11 +23,16 @@ let sendGist = (message, dest, callback) => {
 let sendMessage = (message, dest, callback) => {
     formatMessage(message, function (res) {
         gdocs.setAuth(dest, function (err, info) {
-            if(!err) {
+            if(!err && res.action === "todo") {
                 gdocs.addRow(info[1].worksheets[0].id, res, function (err, info) {
                     if (err) console.log(err)
                     callback(info)
                 })
+            } else if(!err && res.action === "link") {
+                gdocs.addRow(info[1].worksheets[1].id, res, function (err, info) {
+                    if (err) console.log(err)
+                    callback(info)
+                }) 
             }
         })
     })

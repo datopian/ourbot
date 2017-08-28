@@ -39,12 +39,13 @@ bot create milestone all "15 Sept 2017"
 bot close milestone "Sprint - 15 Sept 2017" in "datahq/docs"
 ```
 
-To get url for todos:
+To get url for todos and links:
 ```
 bot todos
+bot links
 ```
 
-In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`
 
 ```
 +todo ...
