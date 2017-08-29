@@ -19,17 +19,16 @@
     "hubot-diagnostics": "0.0.1",
     "hubot-gitter2": "^0.1.3",
     "hubot-google-images": "^0.2.6",
-    "hubot-google-translate": "^0.2.0",
-    "hubot-help": "^1.0.1",
     "hubot-heroku-keepalive": "^1.0.2",
     "hubot-maps": "0.0.2",
-    "hubot-pugme": "^0.1.0",
+    "hubot-motivate": "^3.0.0",
     "hubot-redis-brain": "0.0.3",
-    "hubot-rules": "^0.1.1",
+    "hubot-rules": "^0.1.2",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
     "moment": "^2.18.1",
-    "node-gitter": "^2.0.5"
+    "node-gitter": "^2.0.5",
+    "path": "^0.12.7"
   },
   "engines": {
     "node": "0.10.x"

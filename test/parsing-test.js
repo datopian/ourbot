@@ -135,28 +135,28 @@ describe('Messages parsing', function () {
     })
     it('starting with bot should reply help message', function () {
       return room.user.say('mikanebu', "bot help").then(function () {
-        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal(room.messages[1][1].substr(0, 22), "@mikanebu ### Commands")
         assert.equal((room.messages).length, 2)
       })
     })
 
     it('starting with /bot should reply help message', function () {
       return room.user.say('mikanebu', "/bot help").then(function () {
-        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal(room.messages[1][1].substr(0, 22), "@mikanebu ### Commands")
         assert.equal((room.messages).length, 2)
       })
     })
 
     it('only word bot should reply help message', function () {
       return room.user.say('mikanebu', "bot").then(function () {
-        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal(room.messages[1][1].substr(0, 22), "@mikanebu ### Commands")
         assert.equal((room.messages).length, 2)
       })
     })
 
     it('only word /bot should reply help message', function () {
       return room.user.say('mikanebu', "/bot").then(function () {
-        assert.equal(room.messages[1][1].substr(0, 12), "@mikanebu Hi")
+        assert.equal(room.messages[1][1].substr(0, 22), "@mikanebu ### Commands")
         assert.equal((room.messages).length, 2)
       })
     })

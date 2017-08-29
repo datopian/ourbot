@@ -16,6 +16,8 @@ module.exports = (robot) => {
     let {createMilestone,closeMilestone} = require("./milestone.js")
     let {createIssue} = require("./issue.js")
     let moment = require('moment')
+    let fs = require('fs')
+    let path = require('path')
     robot.hear(/.*/i, (res) => {
         let key, val, de, ref
         let message = formatting.getDataMask(res.message.text, /\+[^*\s]+/)
@@ -88,11 +90,13 @@ module.exports = (robot) => {
         let message = res.message.text
         message = message.split(' ')
         if(message.length === 1 && (message[0] === "bot" || message[0] === "/bot")){
-            res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#commands\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
-          }
+            const getMarkdown = fs.readFileSync(path.join(__dirname, '../docs/help.md'), 'utf8')
+            res.reply(getMarkdown)         
+        }
         else if(message.length == 2 && (message[0] === "bot" && message[1] === "help") || (message[0] === "/bot" && message[1] === "help")){
-            res.reply("Hi, I'm your helpful chatops bot! Please, see README for the usage https://github.com/datopian/ourbot#commands\n+todo - get logged to the Google doc, Gist\n +standup - get logged to the Google doc, Gist")
-          }
+            const getMarkdown = fs.readFileSync(path.join(__dirname, '../docs/help.md'), 'utf8')
+            res.reply(getMarkdown)          
+        }
     })
     
     robot.hear(/bot todos/i, (res) => {
