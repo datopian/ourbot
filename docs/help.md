@@ -16,7 +16,7 @@
 `bot map me <query>` - Returns a map view of the area returned by query.
 `bot the rules` - Make sure hubot still knows the rules.
 `bot todos` - Return Google SpreadSheet  url for tag `+todo`
-`bot time` - Reply with current time
+`bot time in <place>` - Reply with current time in requested place
 `ship it` - Display a motivation squirrel
 `!thank user` - Motivate user 
 
