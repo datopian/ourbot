@@ -4,5 +4,6 @@
   "hubot-maps",
   "hubot-rules",
   "hubot-shipit",
-  "hubot-motivate"
+  "hubot-motivate",
+  "hubot-timezone"
 ]

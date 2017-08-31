@@ -26,6 +26,7 @@
     "hubot-rules": "^0.1.2",
     "hubot-scripts": "^2.17.2",
     "hubot-shipit": "^0.2.0",
+    "hubot-timezone": "^1.0.1",
     "moment": "^2.18.1",
     "node-gitter": "^2.0.5",
     "path": "^0.12.7"
