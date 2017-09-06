@@ -113,6 +113,13 @@ module.exports = (robot) => {
             res.reply("https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET+"#gid=1977716389")
         }
     })
+    robot.hear(/bot standups/i, (res) => {
+        let message = res.message.text
+        message = message.split(' ')
+        if(message.length === 2) {
+            res.reply("https://docs.google.com/spreadsheets/d/"+process.env.GOOGLE_WORKSHEET+"#gid=1440664551")
+        }
+    })
     
     robot.error((err, res) => {
         console.log(err)

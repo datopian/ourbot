@@ -14,6 +14,7 @@
 
 `bot links` - Return Google SpreadSheet url for tag `+link`
 `bot map me <query>` - Returns a map view of the area returned by query.
+`bot standups` - Return Google SpreadSheet  url for tag `+standup`
 `bot the rules` - Make sure hubot still knows the rules.
 `bot todos` - Return Google SpreadSheet  url for tag `+todo`
 `bot time in <place>` - Reply with current time in requested place
@@ -21,4 +22,5 @@
 `!thank user` - Motivate user 
 
 ### Tags
-In your chat channel tag at start, middle or end of a message: `+todo`,`+link`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`
+`+standup` - parsing words are `blockers, last24, next24`

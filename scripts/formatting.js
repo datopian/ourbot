@@ -21,9 +21,17 @@ let removeFromMessage = (text, rem) => {
     return text.replace(rem, '').trim().replace(/\s+/g, " ")
 }
 
+let getStandup = (text, action, mask) => {
+    text = text.replace(action, '').trim().replace(/\s+/g, " ")
+    let standup = text.match(mask)
+    if(standup != null) return standup[1]
+    return ""
+}
+
 exports.formatting = {
     getRoom: getRoom,
     getDataMask: getDataMask,
+    getStandup: getStandup,
     getName: getName,
     removeFromMessage: removeFromMessage
 }

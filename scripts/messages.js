@@ -33,6 +33,11 @@ let sendMessage = (message, dest, callback) => {
                     if (err) console.log(err)
                     callback(info)
                 }) 
+            } else if(!err && res.action === "standup"){
+                gdocs.addRow(info[1].worksheets[2].id, res, function (err, info) {
+                    if (err) console.log(err)
+                    callback(info)
+                })
             }
         })
     })
@@ -54,7 +59,6 @@ let formatMessage = (message, callback) => {
     let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
     let name = formatting.getName(message.user.name)
     let msg = formatting.removeFromMessage(message.text, action)
-
     formatting.getRoom(message.room).then(function (room) {
         callback({
             "action": action.substr(1),
@@ -62,7 +66,8 @@ let formatMessage = (message, callback) => {
             "poster": "@" + message.user.login + " ("+ name +")",
             "assignees": assignees,
             "message": formatting.removeFromMessage(msg, assignees),
-            "room": room.name
+            "room": room.name,
+            "standup": formatting.removeFromMessage(msg, assignees)
         })
     })
 }

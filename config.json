@@ -16,7 +16,7 @@
         },
         "+standup": {
             "action": "log",
-            "dest": ["gdoc1", "gist1"]
+            "dest": ["gdoc1"]
         },
         "+example": {
             "action": "log",

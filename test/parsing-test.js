@@ -47,6 +47,18 @@ describe('Messages parsing', function () {
             assert.equal(room.messages[1][1].substr(0, 15), "@mikanebu Issue")
         })
     })
+    it('+standup', function () {
+        return room.user.say('mikanebu', "+standup blocker: none, last24: test next24: test").then(function () {
+            assert.equal(sendMsg.callCount, 1)
+            assert.equal(sendGst.callCount, 0)
+        })
+    })
+    it('return +standups gdocs url', function () {
+      return room.user.say('mikanebu', "bot standups").then(function () {
+        assert.equal(room.messages[1][1].substr(0, 14), "@mikanebu http")
+        assert.equal((room.messages).length, 2)
+      })
+    })
     it('+link in the beginning', function () {
         return room.user.say('weirdguy', "+link do this one").then(function () {
             assert.equal(sendMsg.callCount, 1)

@@ -51,11 +51,13 @@ Example:
 ```
 bot issue "This is test issue" about "We want to test our bot create  command" in "datahq/docs"
 ```
+## Tags
 
 To get url for todos and links:
 ```
 bot todos
 bot links
+bot standups
 ```
 
 In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`
@@ -72,6 +74,19 @@ This will get logged to the Google doc, Gist or both (depends on configuration) 
 ```
 action, timestamp, poster, assignees, message, room
 +todo,yyyy-mm-ddTHH:MM,@{username}(name),@{username},your message,roomname
+```
+
+```
++standup
+blockers: none
+last24:
+* migrate old data.okfn.org docs
+next24:
+* Add support for admonitions
+```
+```
+action, timestamp, poster, blockers, last24, next24
++standup,yyyy-mm-ddTHH:MM,@{username}(name),message,message,message
 ```
 
 # Deploying and Configuring the Bot
