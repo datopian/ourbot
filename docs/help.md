@@ -23,4 +23,3 @@
 
 ### Tags
 In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`
-`+standup` - parsing words are `blockers, last24, next24`

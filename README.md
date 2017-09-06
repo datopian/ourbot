@@ -85,8 +85,8 @@ next24:
 * Add support for admonitions
 ```
 ```
-action, timestamp, poster, blockers, last24, next24
-+standup,yyyy-mm-ddTHH:MM,@{username}(name),message,message,message
+action, timestamp, poster, standup
++standup,yyyy-mm-ddTHH:MM,@{username}(name),standup_message
 ```
 
 # Deploying and Configuring the Bot
