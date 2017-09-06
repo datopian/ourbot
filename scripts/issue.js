@@ -1,3 +1,4 @@
+require("babel-polyfill")
 let Issue = require('../node_modules/github-api/dist/components/Issue.js')
 let config = require('../config.json')
 
