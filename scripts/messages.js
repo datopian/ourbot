@@ -58,12 +58,16 @@ let formatMessage = (message, callback) => {
     let action = formatting.getDataMask(message.text, /\+[^*\s]+/)
     let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
     let name = formatting.getName(message.user.name)
+    let poster = "@" + message.user.login + " ("+ name +")"
+    if(assignees === "") {
+      assignees = poster
+    }
     let msg = formatting.removeFromMessage(message.text, action)
     formatting.getRoom(message.room).then(function (room) {
         callback({
             "action": action.substr(1),
             "timestamp": new Date().toISOString(),
-            "poster": "@" + message.user.login + " ("+ name +")",
+            "poster": poster,
             "assignees": assignees,
             "message": formatting.removeFromMessage(msg, assignees),
             "room": room.name,

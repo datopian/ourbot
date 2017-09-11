@@ -233,6 +233,11 @@ describe('Messages parsing', function () {
             assert.equal(res.action, "todo")
         })
     })
+    it('Message Formatting, without assignees', function () {
+        messages.formatMessage({"text": "do this +todo", "user": {"login":"test", "name": "Test (@Test)"}, "room": "sadqwewqeqw"}, function (res) {
+            assert.equal(res.assignees, "@test (Test)")
+        })
+    })
 
     it('Gist formatting', function () {
         messages.formatGist({"text": "+todo do this", "user": {"login":"test", "name": "Test (@Test)"}, "room": "sadqwewqeqw"}, function (res) {
