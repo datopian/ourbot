@@ -1,85 +1,89 @@
-import Gists from 'gists';
-import Gitter from 'node-gitter';
-let formatting = require('./formatting.js').formatting
-let gdocs = require('./gdocs.js').gdocs
+import Gists from 'gists'
 
-let gitter = new Gitter(process.env.HUBOT_GITTER2_TOKEN)
+const formatting = require('./formatting.js').formatting
+const gdocs = require('./gdocs.js').gdocs
 
-let gists = new Gists({
-    username: process.env.GIST_USERNAME,
-    password: process.env.GIST_PASSWORD
+const gists = new Gists({
+  username: process.env.GIST_USERNAME,
+  password: process.env.GIST_PASSWORD
 })
 
-let sendGist = (message, dest, callback) => {
-    gists.download({id: dest }, function(err, res) {
-        formatGist(message, function (data) {
-            gists.edit({"description": "the description for this gist", "files": {"log.txt": { "content": res.files["log.txt"].content + "\n" + data }}, "id": dest }, function (err, inf) {
-                callback({"updated": res.updated_at})
-            })
-        })
-    });
-}
-
-let sendMessage = (message, dest, callback) => {
-    formatMessage(message, function (res) {
-        gdocs.setAuth(dest, function (err, info) {
-            if(!err && res.action === "todo") {
-                gdocs.addRow(info[1].worksheets[0].id, res, function (err, info) {
-                    if (err) console.log(err)
-                    callback(info)
-                })
-            } else if(!err && res.action === "link") {
-                gdocs.addRow(info[1].worksheets[1].id, res, function (err, info) {
-                    if (err) console.log(err)
-                    callback(info)
-                }) 
-            } else if(!err && res.action === "standup"){
-                gdocs.addRow(info[1].worksheets[2].id, res, function (err, info) {
-                    if (err) console.log(err)
-                    callback(info)
-                })
-            }
-        })
+const sendGist = (message, dest, callback) => {
+  gists.download({id: dest}, (err, res) => {
+    formatGist(message, data => {
+      gists.edit({description: 'the description for this gist', files: {'log.txt': {content: res.files['log.txt'].content + '\n' + data}}, id: dest}, (err, inf) => { // eslint-disable-line no-unused-vars
+        callback({updated: res.updated_at})
+      })
     })
+  })
 }
 
-let formatGist = (message, callback) => {
-    let action = formatting.getDataMask(message.text, /\+[^*\s]+/)
-    let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
-    let name = formatting.getName(message.user.name)
-    let msg = formatting.removeFromMessage(message.text, action)
-
-    formatting.getRoom(message.room).then(function (room) {
-        callback(action.substr(1) + "," + new Date().toISOString() + "," + "@" + message.user.login + " ("+ name +")" + "," + room.name +"," + assignees + "," + formatting.removeFromMessage(msg, assignees))
-    })
-}
-
-let formatMessage = (message, callback) => {
-    let action = formatting.getDataMask(message.text, /\+[^*\s]+/)
-    let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
-    let name = formatting.getName(message.user.name)
-    let poster = "@" + message.user.login + " ("+ name +")"
-    if(assignees === "") {
-      assignees = poster
-    }
-    let msg = formatting.removeFromMessage(message.text, action)
-    formatting.getRoom(message.room).then(function (room) {
-        callback({
-            "action": action.substr(1),
-            "timestamp": new Date().toISOString(),
-            "poster": poster,
-            "assignees": assignees,
-            "message": formatting.removeFromMessage(msg, assignees),
-            "room": room.name,
-            "standup": formatting.removeFromMessage(msg, assignees)
+const sendMessage = (message, dest, callback) => {
+  formatMessage(message, res => {
+    gdocs.setAuth(dest, (err, info) => {
+      if (!err && res.action === 'todo') {
+        gdocs.addRow(info[1].worksheets[0].id, res, (err, info) => {
+          if (err) {
+            console.log(err)
+          }
+          callback(info)
         })
+      } else if (!err && res.action === 'link') {
+        gdocs.addRow(info[1].worksheets[1].id, res, (err, info) => {
+          if (err) {
+            console.log(err)
+          }
+          callback(info)
+        })
+      } else if (!err && res.action === 'standup') {
+        gdocs.addRow(info[1].worksheets[2].id, res, (err, info) => {
+          if (err) {
+            console.log(err)
+          }
+          callback(info)
+        })
+      }
     })
+  })
 }
 
+const formatGist = (message, callback) => {
+  const action = formatting.getDataMask(message.text, /\+[^*\s]+/)
+  const assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
+  const name = formatting.getName(message.user.name)
+  const msg = formatting.removeFromMessage(message.text, action)
+
+  formatting.getRoom(message.room).then(room => {
+    // eslint-disable-next-line no-useless-concat
+    callback(action.substr(1) + ',' + new Date().toISOString() + ',' + '@' + message.user.login + ' (' + name + ')' + ',' + room.name + ',' + assignees + ',' + formatting.removeFromMessage(msg, assignees))
+  })
+}
+
+const formatMessage = (message, callback) => {
+  const action = formatting.getDataMask(message.text, /\+[^*\s]+/)
+  let assignees = formatting.getDataMask(message.text, /@[^*\s]+/)
+  const name = formatting.getName(message.user.name)
+  const poster = '@' + message.user.login + ' (' + name + ')'
+  if (assignees === '') {
+    assignees = poster
+  }
+  const msg = formatting.removeFromMessage(message.text, action)
+  formatting.getRoom(message.room).then(room => {
+    callback({
+      action: action.substr(1),
+      timestamp: new Date().toISOString(),
+      poster,
+      assignees,
+      message: formatting.removeFromMessage(msg, assignees),
+      room: room.name,
+      standup: formatting.removeFromMessage(msg, assignees)
+    })
+  })
+}
 
 exports.messages = {
-    sendMessage: sendMessage,
-    sendGist: sendGist,
-    formatMessage: formatMessage,
-    formatGist: formatGist
-};
+  sendMessage,
+  sendGist,
+  formatMessage,
+  formatGist
+}

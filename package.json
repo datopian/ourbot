@@ -12,9 +12,12 @@
     "babel-preset-es2015": "^6.24.0",
     "babel-register": "^6.24.0",
     "coffee-script": "~1.8.0",
+    "cookiejar": "^2.1.1",
+    "csprng": "^0.1.2",
     "dotenv": "^4.0.0",
     "gists": "^0.1.2",
     "github-api": "^3.0.0",
+    "github-base": "^0.5.4",
     "google-spreadsheet": "^2.0.3",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.1",
@@ -30,7 +33,8 @@
     "hubot-timezone": "^1.0.1",
     "moment": "^2.18.1",
     "node-gitter": "^2.0.5",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "xo": "^0.18.2"
   },
   "engines": {
     "node": "0.10.x"
@@ -42,7 +46,22 @@
     "sinon": "^2.1.0"
   },
   "scripts": {
-    "test": "mocha --require coffee-script/register --compilers coffee:coffee-script --compilers js:babel-core/register test/*.js",
-    "watch:test": "npm t -- --watch"
+    "test": "xo --quiet && mocha --require coffee-script/register --compilers coffee:coffee-script --compilers js:babel-core/register test/*.js",
+    "watch:test": "npm t -- --watch",
+    "lint": "xo --quiet"
+  },
+  "xo": {
+    "space": true,
+    "semicolon": false,
+    "rules": {
+      "no-use-before-define": 1,
+      "no-await-in-loop": 1,
+      "import/prefer-default-export": 1,
+      "no-negated-condition": 1,
+      "guard-for-in": 1
+    },
+    "ignores": [
+      "scripts/000-import-scripts.js"
+    ]
   }
 }

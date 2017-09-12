@@ -1,13 +1,13 @@
-require("babel-polyfill")
-let Issue = require('../node_modules/github-api/dist/components/Issue.js')
-let config = require('../config.json')
+// eslint-disable-next-line import/no-unassigned-import
+require('babel-polyfill')
+const Issue = require('../node_modules/github-api/dist/components/Issue.js')
 
-// create issue
-let createIssue = (title, body, owner, repo) => {
-  let issueObj = new Issue(owner+'/'+repo, {token: process.env.GITHUB_TOKEN})
-  let issueData = {
-    "title": title,
-    "body": body
+// Create issue
+const createIssue = (title, body, owner, repo) => {
+  const issueObj = new Issue(owner + '/' + repo, {token: process.env.GITHUB_TOKEN})
+  const issueData = {
+    title,
+    body
   }
   return issueObj.createIssue(issueData)
 }
