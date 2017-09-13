@@ -2,6 +2,7 @@
 import assert from 'assert'
 import Helper from 'hubot-test-helper'
 import sinon from 'sinon'
+import async from 'async'
 
 const messages = require('../scripts/messages.js').messages
 const formatting = require('../scripts/formatting.js').formatting
@@ -11,6 +12,7 @@ const issue = require('../scripts/issue.js')
 const helper = new Helper('../scripts/main.js')
 
 describe('Messages parsing', () => {
+  let auth
   let msg
   let room
   let sendMsg
@@ -20,6 +22,21 @@ describe('Messages parsing', () => {
   let createMilestone
   let closeMilestone
   beforeEach(() => {
+    auth = sinon.stub(async, 'series').callsFake((arr, cb) => {
+      cb(null, [null, {
+        worksheets: [
+          {
+            id: '1', title: 'todos', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          },
+          {
+            id: '2', title: 'standups', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          },
+          {
+            id: '3', title: 'links', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          }
+        ]
+      }])
+    })
     createIssue = sinon.stub(issue, 'createIssue')
     createMilestone = sinon.stub(milestone, 'createMilestone')
     closeMilestone = sinon.stub(milestone, 'closeMilestone')
@@ -31,6 +48,7 @@ describe('Messages parsing', () => {
   })
 
   afterEach(() => {
+    auth.restore()
     room.destroy()
     createIssue.restore()
     createMilestone.restore()

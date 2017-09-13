@@ -17,6 +17,7 @@ module.exports = robot => {
   const moment = require('moment')
   const fs = require('fs')
   const path = require('path')
+  const gdocs = require('./gdocs.js').gdocs
   robot.hear(/.*/i, res => {
     let key
     let de
@@ -99,28 +100,33 @@ module.exports = robot => {
     }
   })
 
-  robot.hear(/bot todos/i, res => {
-    let message = res.message.text
-    message = message.split(' ')
-    if (message.length === 2) {
-      res.reply('https://docs.google.com/spreadsheets/d/' + process.env.GOOGLE_WORKSHEET)
-    }
+  robot.hear(/bot todos|bot standups|bot links/i, res => {
+    const gdoc = config.docs.gdoc1.dest
+    gdocs.setAuth(gdoc, (err, info) => {
+      if (!err) {
+        info[1].worksheets.forEach(repo => {
+          if (repo.title === 'todos' && res.message.text === 'bot todos') {
+            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
+            let gid = glink.split('?')
+            gid = gid[1]
+            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+          } else if (repo.title === 'standups' && res.message.text === 'bot standups') {
+            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
+            let gid = glink.split('?')
+            gid = gid[1]
+            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+          } else if (repo.title === 'links' && res.message.text === 'bot links') {
+            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
+            let gid = glink.split('?')
+            gid = gid[1]
+            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+          }
+        })
+      } else {
+        console.log(err)
+      }
+    })
   })
-  robot.hear(/bot links/i, res => {
-    let message = res.message.text
-    message = message.split(' ')
-    if (message.length === 2) {
-      res.reply('https://docs.google.com/spreadsheets/d/' + process.env.GOOGLE_WORKSHEET + '#gid=1977716389')
-    }
-  })
-  robot.hear(/bot standups/i, res => {
-    let message = res.message.text
-    message = message.split(' ')
-    if (message.length === 2) {
-      res.reply('https://docs.google.com/spreadsheets/d/' + process.env.GOOGLE_WORKSHEET + '#gid=1440664551')
-    }
-  })
-
   robot.error((err, res) => {
     console.log(err)
     robot.logger.error('DOES NOT COMPUTE')
