@@ -44,7 +44,8 @@ module.exports = robot => {
     const org = res.match[2]
     const repo = res.match[3]
     if (message[1] === 'create') {
-      const myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      let myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      myDate = moment(myDate, 'DD-MM-YYYY').add(1, 'days')
       if (moment(myDate, moment.ISO_8601, true).isValid()) {
         const titleWithSprint = 'Sprint - ' + title
         createMilestone(titleWithSprint, myDate, org, repo)
@@ -63,7 +64,8 @@ module.exports = robot => {
     message = message.split(' ')
     const title = res.match[1]
     if (message[1] === 'create') {
-      const myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      let myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      myDate = moment(myDate, 'DD-MM-YYYY').add(1, 'days')
       if (moment(myDate, moment.ISO_8601, true).isValid()) {
         const titleWithSprint = 'Sprint - ' + title
         createMilestone(titleWithSprint, myDate)
