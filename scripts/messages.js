@@ -21,27 +21,33 @@ const sendGist = (message, dest, callback) => {
 const sendMessage = (message, dest, callback) => {
   formatMessage(message, res => {
     gdocs.setAuth(dest, (err, info) => {
-      if (!err && res.action === 'todo') {
-        gdocs.addRow(info[1].worksheets[0].id, res, (err, info) => {
-          if (err) {
-            console.log(err)
+      if (!err) {
+        info[1].worksheets.forEach(worksheet => {
+          if (res.action === 'todo' && worksheet.title === 'todos') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
+          } else if (res.action === 'link' && worksheet.title === 'links') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
+          } else if (res.action === 'standup' && worksheet.title === 'standups') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
           }
-          callback(info)
         })
-      } else if (!err && res.action === 'link') {
-        gdocs.addRow(info[1].worksheets[1].id, res, (err, info) => {
-          if (err) {
-            console.log(err)
-          }
-          callback(info)
-        })
-      } else if (!err && res.action === 'standup') {
-        gdocs.addRow(info[1].worksheets[2].id, res, (err, info) => {
-          if (err) {
-            console.log(err)
-          }
-          callback(info)
-        })
+      } else {
+        console.log(err)
       }
     })
   })

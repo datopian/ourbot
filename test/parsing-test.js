@@ -42,7 +42,7 @@ describe('Messages parsing', () => {
     closeMilestone = sinon.stub(milestone, 'closeMilestone')
     sendMsg = sinon.stub(messages, 'sendMessage')
     sendGst = sinon.stub(messages, 'sendGist')
-    getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test'})
+    getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test', group: {name: 'Datopian'}})
     room = helper.createRoom()
     msg = '+todo do @test this one'
   })
@@ -108,7 +108,6 @@ describe('Messages parsing', () => {
       assert.equal(createMilestone.callCount, 0)
     })
   })
-
   it('create milestone all', () => {
     return room.user.say('mikanebu', `bot create milestone all "13 Jan 2018"`).then(() => {
       assert.equal(createMilestone.callCount, 1)

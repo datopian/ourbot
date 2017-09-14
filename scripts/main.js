@@ -20,18 +20,21 @@ module.exports = robot => {
   const gdocs = require('./gdocs.js').gdocs
   robot.hear(/.*/i, res => {
     let key
-    let de
     let ref
     const message = formatting.getDataMask(res.message.text, /\+[^*\s]+/)
     for (key in config.monitor) {
       if (message !== null) {
         if (key === message) {
-          for (de in config.monitor[message].dest) {
-            ref = config.monitor[message].dest[de]
-            messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
-              console.log('Added at: ' + info.updated)
-            })
-          }
+          formatting.getRoom(res.message.room).then(room => {
+            for (let i = 0; i < config.monitor[message].dest.length; i++) {
+              ref = config.monitor[message].dest[i]
+              if (room.group.name === config.docs[ref].room) {
+                messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
+                  console.log('Added at: ' + info['app:edited'])
+                })
+              }
+            }
+          })
         }
       }
     }
@@ -59,6 +62,7 @@ module.exports = robot => {
       res.reply('Milestone successfully closed at \'https://github.com/' + org + '/' + repo + '/milestones')
     }
   })
+
   robot.hear(/bot (?:create|close) milestone all "([^"]+)"/i, res => {
     let message = res.message.text
     message = message.split(' ')
@@ -103,31 +107,48 @@ module.exports = robot => {
   })
 
   robot.hear(/bot todos|bot standups|bot links/i, res => {
-    const gdoc = config.docs.gdoc1.dest
-    gdocs.setAuth(gdoc, (err, info) => {
-      if (!err) {
-        info[1].worksheets.forEach(repo => {
-          if (repo.title === 'todos' && res.message.text === 'bot todos') {
-            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
-            let gid = glink.split('?')
-            gid = gid[1]
-            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-          } else if (repo.title === 'standups' && res.message.text === 'bot standups') {
-            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
-            let gid = glink.split('?')
-            gid = gid[1]
-            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-          } else if (repo.title === 'links' && res.message.text === 'bot links') {
-            const glink = repo._links['http://schemas.google.com/visualization/2008#visualizationApi']
-            let gid = glink.split('?')
-            gid = gid[1]
-            res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-          }
-        })
-      } else {
-        console.log(err)
+    let key
+    let ref
+    let message = res.message.text.split(' ')
+    message = '+' + message[1].substring(0, message[1].length - 1)
+    for (key in config.monitor) {
+      if (message !== null) {
+        if (key === message) {
+          formatting.getRoom(res.message.room).then(room => {
+            for (let i = 0; i < config.monitor[message].dest.length; i++) {
+              ref = config.monitor[message].dest[i]
+              if (room.group.name === config.docs[ref].room) {
+                const gdoc = config.docs[ref].dest
+                gdocs.setAuth(gdoc, (err, info) => {
+                  if (!err) {
+                    info[1].worksheets.forEach(worksheet => {
+                      if (worksheet.title === 'todos' && res.message.text === 'bot todos') {
+                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
+                        let gid = glink.split('?')
+                        gid = gid[1]
+                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                      } else if (worksheet.title === 'standups' && res.message.text === 'bot standups') {
+                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
+                        let gid = glink.split('?')
+                        gid = gid[1]
+                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                      } else if (worksheet.title === 'links' && res.message.text === 'bot links') {
+                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
+                        let gid = glink.split('?')
+                        gid = gid[1]
+                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                      }
+                    })
+                  } else {
+                    console.log(err)
+                  }
+                })
+              }
+            }
+          })
+        }
       }
-    })
+    }
   })
   robot.error((err, res) => {
     console.log(err)

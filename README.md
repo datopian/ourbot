@@ -117,14 +117,17 @@ There are two parts to configuration:
         "gdoc1": {
             "fun": "sendMessage",
             "dest": "gdocid1"
+            "room": "roomName"
         },
         "gist1": {
             "fun": "sendGist",
             "dest": "gistid"
+            "room": "roomName"
         },
         "gdoc2": {
             "fun": "sendMessage",
             "dest": "gdocid2"
+            "room": "roonName"
         }
     },
     "monitor": {

@@ -1,10 +1,16 @@
 {
     "docs": {
-        "gdoc1": {
+        "gdocDatopian": {
             "fun": "sendMessage",
-            "dest": "1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY"
+            "dest": "1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY",
+            "room": "Datopian"
         },
-        "gist1": {
+        "gdocArtErthTech": {
+            "fun": "sendMessage",
+            "dest": "19D6qQm4vhg8IJVIA8sLoeGG5V7rnSDgbRuOw9IPFGHk",
+            "room": "Art / Earth / Tech"
+        },
+        "gistDatopian": {
             "fun": "sendGist",
             "dest": "2b2875c259f5c41ee8ad6c447bd99667"
         }
@@ -12,19 +18,19 @@
     "monitor": {
         "+todo": {
             "action": "log",
-            "dest": ["gdoc1"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         },
         "+standup": {
             "action": "log",
-            "dest": ["gdoc1"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         },
         "+example": {
             "action": "log",
-            "dest": ["gdoc1"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         },
         "+link": {
             "action": "log",
-            "dest": ["gdoc1"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         }
     },
     "repos": [
