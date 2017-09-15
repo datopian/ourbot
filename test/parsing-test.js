@@ -37,9 +37,9 @@ describe('Messages parsing', () => {
         ]
       }])
     })
-    createIssue = sinon.stub(issue, 'createIssue')
-    createMilestone = sinon.stub(milestone, 'createMilestone')
-    closeMilestone = sinon.stub(milestone, 'closeMilestone')
+    createIssue = sinon.stub(issue, 'createIssue').resolves({data: {number: 'test'}})
+    createMilestone = sinon.stub(milestone, 'createMilestone').resolves({data: {number: 'test'}})
+    closeMilestone = sinon.stub(milestone, 'closeMilestone').resolves({data: {number: 'test'}})
     sendMsg = sinon.stub(messages, 'sendMessage')
     sendGst = sinon.stub(messages, 'sendGist')
     getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test', group: {name: 'Datopian'}})

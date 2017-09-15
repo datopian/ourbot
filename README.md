@@ -36,22 +36,26 @@ Examples:
 ```
 bot create milestone "15 Sept 2017" in "datahq/docs"
 bot create milestone all "15 Sept 2017"
-bot close milestone "Sprint - 15 Sept 2017" in "datahq/docs"
+bot close milestone "15 Sept 2017" in "datahq/docs"
 ```
 
 To create an issue on GitHub:
 
 ```
 bot issue "title" about "body" in "myorg/myrepo"
+bot issue "title" in "myorg/myrepo"
 ```
 `title` - the title of the issue.
 `body` - the contents of the issue.
 
 Example:
 ```
-bot issue "This is test issue" about "We want to test our bot create  command" in "datahq/docs"
+bot issue "title of the issue" about "body" in "datahq/docs"
+bot issue "title of the issue" in "datahq/docs"
 ```
 ## Tags
+
+Bot can listen to a predefined channels, configured in `config.json`
 
 To get url for todos and links:
 ```

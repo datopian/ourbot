@@ -5,7 +5,7 @@ const config = require('../config.json')
 
 // Create milestones all
 const createMilestone = (title, myDate, owner, repo) => {
-  if (!owner || !repo) {
+  if (!owner && !repo) {
     config.repos.forEach(repo => {
       const issueObj = new Issue(repo.owner + '/' + repo.repo, {token: process.env.GITHUB_TOKEN})
       const milestoneData = {

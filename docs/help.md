@@ -1,5 +1,4 @@
 ### Commands
-`bot adapter` - Reply with the adapter
 
 `bot create|close milestone all "title"` - Creates milestone for all repos listed in `config.json`
 `bot create|close milestone "title" in "myorg/myrepo"` - Create and close milestone in the specific github repo
@@ -11,7 +10,10 @@
 `bot issue "title" about "body" in "myorg/myrepo"` - Create an issue on github
   - *title* - the title of the issue
   - *body* - the contents of the issue
-
+  
+`bot issue "title" in "myorg/myrepo"` - Create an issue without content on github
+  - *title* - the title of the issue
+    
 `bot links` - Return Google SpreadSheet url for tag `+link`
 `bot map me <query>` - Returns a map view of the area returned by query.
 `bot standups` - Return Google SpreadSheet  url for tag `+standup`

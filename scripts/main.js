@@ -31,6 +31,7 @@ module.exports = robot => {
               if (room.group.name === config.docs[ref].room) {
                 messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
                   console.log('Added at: ' + info['app:edited'])
+                  res.reply(message + ' recorded')
                 })
               }
             }
@@ -51,15 +52,27 @@ module.exports = robot => {
       myDate = moment(myDate, 'DD-MM-YYYY').add(1, 'days')
       if (moment(myDate, moment.ISO_8601, true).isValid()) {
         const titleWithSprint = 'Sprint - ' + title
-        createMilestone(titleWithSprint, myDate, org, repo)
-        res.reply('Milestone successfully created at \'https://github.com/' + org + '/' + repo + '/milestones')
+        createMilestone(titleWithSprint, myDate, org, repo).then(info => {
+          res.reply('Milestone successfully created at https://github.com/' + org + '/' + repo + '/milestone/' + info.data.number)
+        })
       } else {
-        createMilestone(title, myDate, org, repo)
-        res.reply('Milestone successfully created at \'https://github.com/' + org + '/' + repo + '/milestones')
+        createMilestone(title, myDate, org, repo).then(info => {
+          res.reply('Milestone successfully created at https://github.com/' + org + '/' + repo + '/milestone/' + info.data.number)
+        })
       }
     } else {
-      closeMilestone(title, org, repo)
-      res.reply('Milestone successfully closed at \'https://github.com/' + org + '/' + repo + '/milestones')
+      let myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      myDate = moment(myDate, 'DD-MM-YYYY')
+      if (moment(myDate, moment.ISO_8601, true).isValid()) {
+        const titleWithSprint = 'Sprint - ' + title
+        closeMilestone(titleWithSprint, org, repo).then(info => {
+          res.reply('Milestone successfully closed at https://github.com/' + org + '/' + repo + '/milestone/' + info.data.number)
+        })
+      } else {
+        closeMilestone(title, org, repo).then(info => {
+          res.reply('Milestone successfully closed at https://github.com/' + org + '/' + repo + '/milestone/' + info.data.number)
+        })
+      }
     }
   })
 
@@ -79,8 +92,16 @@ module.exports = robot => {
         res.reply('Milestone successfully created')
       }
     } else {
-      closeMilestone(title)
-      res.reply('Milestones successfully closed')
+      let myDate = moment(title, 'DD-MMM-YYYY').toDate()
+      myDate = moment(myDate, 'DD-MM-YYYY')
+      if (moment(myDate, moment.ISO_8601, true).isValid()) {
+        const titleWithSprint = 'Sprint - ' + title
+        closeMilestone(titleWithSprint)
+        res.reply('Milestones successfully closed')
+      } else {
+        closeMilestone(title)
+        res.reply('Milestones successfully closed')
+      }
     }
   })
 
@@ -89,8 +110,19 @@ module.exports = robot => {
     const body = res.match[2]
     const org = res.match[3]
     const repo = res.match[4]
-    createIssue(title, body, org, repo)
-    res.reply('Issue created at \'https://github.com/' + org + '/' + repo + '/issues')
+    createIssue(title, body, org, repo).then(info => {
+      res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+    })
+  })
+
+  robot.hear(/bot issue "([^"]+)"?(?: in "([\w\d-_]+)(?:\/([\w\d-_]+))?")/i, res => {
+    const title = res.match[1]
+    const org = res.match[2]
+    const repo = res.match[3]
+    const body = ''
+    createIssue(title, body, org, repo).then(info => {
+      res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+    })
   })
 
   robot.hear(/bot help|bot/i, res => {
