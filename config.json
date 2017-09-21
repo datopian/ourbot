@@ -31,6 +31,14 @@
         "+link": {
             "action": "log",
             "dest": ["gdocDatopian","gdocArtErthTech"]
+        },
+        "+integrity": {
+            "action": "log",
+            "dest": ["gdocDatopian","gdocArtErthTech"]
+        },
+        "+promise": {
+            "action": "log",
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         }
     },
     "repos": [

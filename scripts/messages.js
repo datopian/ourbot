@@ -44,6 +44,20 @@ const sendMessage = (message, dest, callback) => {
               }
               callback(info)
             })
+          } else if (res.action === 'promise' && worksheet.title === 'promises') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
+          } else if (res.action === 'integrity' && worksheet.title === 'integrities') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
           }
         })
       } else {
@@ -82,7 +96,9 @@ const formatMessage = (message, callback) => {
       assignees,
       message: formatting.removeFromMessage(msg, assignees),
       room: room.name,
-      standup: formatting.removeFromMessage(msg, assignees)
+      standup: formatting.removeFromMessage(msg, assignees),
+      integrity: formatting.removeFromMessage(msg, assignees),
+      promise: formatting.removeFromMessage(msg, assignees)
     })
   })
 }

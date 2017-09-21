@@ -59,12 +59,14 @@ Bot can listen to a predefined channels, configured in `config.json`
 
 To get url for todos and links:
 ```
-bot todos
+bot integrities
 bot links
 bot standups
+bot todos
+bot promises
 ```
 
-In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`, `+integrity`, `+promise`
 
 ```
 +todo ...

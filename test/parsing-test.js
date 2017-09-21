@@ -33,6 +33,12 @@ describe('Messages parsing', () => {
           },
           {
             id: '3', title: 'links', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          },
+          {
+            id: '4', title: 'promises', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          },
+          {
+            id: '5', title: 'integrities', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
           }
         ]
       }])
@@ -91,6 +97,30 @@ describe('Messages parsing', () => {
     return room.user.say('weirdguy', 'do this one +link').then(() => {
       assert.equal(sendMsg.callCount, 1)
       assert.equal(sendGst.callCount, 0)
+    })
+  })
+  it('+integrity check', () => {
+    return room.user.say('weirdguy', 'do this one +integrity').then(() => {
+      assert.equal(sendMsg.callCount, 1)
+      assert.equal(sendGst.callCount, 0)
+    })
+  })
+  it('return +integity gdocs url', () => {
+    return room.user.say('mikanebu', 'bot integrities').then(() => {
+      assert.equal(room.messages[1][1].substr(0, 14), '@mikanebu http')
+      assert.equal((room.messages).length, 2)
+    })
+  })
+  it('+promise check', () => {
+    return room.user.say('weirdguy', 'do this one +promise').then(() => {
+      assert.equal(sendMsg.callCount, 1)
+      assert.equal(sendGst.callCount, 0)
+    })
+  })
+  it('return +promise gdocs url', () => {
+    return room.user.say('mikanebu', 'bot promises').then(() => {
+      assert.equal(room.messages[1][1].substr(0, 14), '@mikanebu http')
+      assert.equal((room.messages).length, 2)
     })
   })
   it('create milestone', () => {

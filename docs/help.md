@@ -6,7 +6,8 @@
     - any date in the format of `DD MMM YYYY`
     - any string
     For example: "13 Jan 2017" or "This is Backlog"
-    
+
+`bot integrities` - Return Google SpreadSheet url for tag `+integrity`    
 `bot issue "title" about "body" in "myorg/myrepo"` - Create an issue on github
   - *title* - the title of the issue
   - *body* - the contents of the issue
@@ -16,6 +17,7 @@
     
 `bot links` - Return Google SpreadSheet url for tag `+link`
 `bot map me <query>` - Returns a map view of the area returned by query.
+`bot promises` - Return Google SpreadSheet url for tag `+promise`
 `bot standups` - Return Google SpreadSheet  url for tag `+standup`
 `bot the rules` - Make sure hubot still knows the rules.
 `bot todos` - Return Google SpreadSheet  url for tag `+todo`
@@ -24,4 +26,4 @@
 `!thank user` - Motivate user 
 
 ### Tags
-In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`, `+promise`, `+integrity`

@@ -138,49 +138,64 @@ module.exports = robot => {
     }
   })
 
-  robot.hear(/bot todos|bot standups|bot links/i, res => {
-    let key
-    let ref
-    let message = res.message.text.split(' ')
-    message = '+' + message[1].substring(0, message[1].length - 1)
-    for (key in config.monitor) {
-      if (message !== null) {
-        if (key === message) {
-          formatting.getRoom(res.message.room).then(room => {
-            for (let i = 0; i < config.monitor[message].dest.length; i++) {
-              ref = config.monitor[message].dest[i]
-              if (room.group.name === config.docs[ref].room) {
-                const gdoc = config.docs[ref].dest
-                gdocs.setAuth(gdoc, (err, info) => {
-                  if (!err) {
-                    info[1].worksheets.forEach(worksheet => {
-                      if (worksheet.title === 'todos' && res.message.text === 'bot todos') {
-                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
-                        let gid = glink.split('?')
-                        gid = gid[1]
-                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-                      } else if (worksheet.title === 'standups' && res.message.text === 'bot standups') {
-                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
-                        let gid = glink.split('?')
-                        gid = gid[1]
-                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-                      } else if (worksheet.title === 'links' && res.message.text === 'bot links') {
-                        const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
-                        let gid = glink.split('?')
-                        gid = gid[1]
-                        res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
-                      }
-                    })
-                  } else {
-                    console.log(err)
-                  }
-                })
+  robot.hear(/bot todos|bot standups|bot links|bot promises|bot integrities/i, res => {
+    const tags = [
+      {tag: '+todo', command: 'todos'},
+      {tag: '+standup', command: 'standups'},
+      {tag: '+link', command: 'links'},
+      {tag: '+promise', command: 'promises'},
+      {tag: '+integrity', command: 'integrities'}
+    ]
+    const message = res.message.text.split(' ')
+    tags.forEach(tag => {
+      if (tag.command === message[1]) {
+        let key
+        let ref
+        for (key in config.monitor) {
+          if (key === tag.tag) {
+            formatting.getRoom(res.message.room).then(room => {
+              for (let i = 0; i < config.monitor[tag.tag].dest.length; i++) {
+                ref = config.monitor[tag.tag].dest[i]
+                if (room.group.name === config.docs[ref].room) {
+                  const gdoc = config.docs[ref].dest
+                  gdocs.setAuth(gdoc, (err, info) => {
+                    if (!err) {
+                      info[1].worksheets.forEach(worksheet => {
+                        if ('bot ' + worksheet.title === res.message.text) {
+                          const glink = worksheet._links['http://schemas.google.com/visualization/2008#visualizationApi']
+                          let gid = glink.split('?')
+                          gid = gid[1]
+                          switch (worksheet.title | res.message.text) {
+                            case 'todos' | 'bot todos' :
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            case 'standups' | 'bot standups' :
+                              break
+                            case 'links' | 'bot links' :
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            case 'integrities' | 'bot integrities' :
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            case 'promises' | 'bot promises':
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            default:
+                              break
+                          }
+                        }
+                      })
+                    } else {
+                      console.log(err)
+                    }
+                  })
+                }
               }
-            }
-          })
+            })
+          }
         }
       }
-    }
+    })
   })
   robot.error((err, res) => {
     console.log(err)
