@@ -50,7 +50,7 @@ describe('Messages parsing', () => {
     sendGst = sinon.stub(messages, 'sendGist')
     getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test', group: {name: 'Datopian'}})
     room = helper.createRoom()
-    msg = '+todo do @test this one'
+    msg = '+todo do @test this \n one'
   })
 
   afterEach(() => {
@@ -241,7 +241,7 @@ describe('Messages parsing', () => {
   })
 
   it('Action remove from message', () => {
-    assert.equal(formatting.removeFromMessage(msg, formatting.getDataMask(msg, /\+[^*\s]+/)), 'do @test this one')
+    assert.equal(formatting.removeFromMessage(msg, formatting.getDataMask(msg, /\+[^*\s]+/)), 'do @test this \n one')
   })
 
   it('Assignees getting', () => {
@@ -249,12 +249,12 @@ describe('Messages parsing', () => {
   })
 
   it('Assignees removing from message', () => {
-    assert.equal(formatting.removeFromMessage(msg, formatting.getDataMask(msg, /\@[^*\s]+/)), '+todo do this one') // eslint-disable-line no-useless-escape
+    assert.equal(formatting.removeFromMessage(msg, formatting.getDataMask(msg, /\@[^*\s]+/)), '+todo do this \n one') // eslint-disable-line no-useless-escape
   })
 
   it('Action and Assignees removing from message', () => {
     const tmp = formatting.removeFromMessage(msg, formatting.getDataMask(msg, /\@[^*\s]+/)) // eslint-disable-line no-useless-escape
-    assert.equal(formatting.removeFromMessage(tmp, formatting.getDataMask(tmp, /\+[^*\s]+/)), 'do this one')
+    assert.equal(formatting.removeFromMessage(tmp, formatting.getDataMask(tmp, /\+[^*\s]+/)), 'do this \n one')
   })
 
   it('Name getting', () => {
