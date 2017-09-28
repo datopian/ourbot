@@ -14,6 +14,7 @@ const helper = new Helper('../scripts/main.js')
 describe('Messages parsing', () => {
   let auth
   let msg
+  let msgStandup
   let room
   let sendMsg
   let sendGst
@@ -51,6 +52,7 @@ describe('Messages parsing', () => {
     getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test', group: {name: 'Datopian'}})
     room = helper.createRoom()
     msg = '+todo do @test this \n one'
+    msgStandup = '+standup \n blockers: Need a review \n last24: tested bot \n next24: will test bot'
   })
 
   afterEach(() => {
@@ -75,6 +77,13 @@ describe('Messages parsing', () => {
       assert.equal(sendGst.callCount, 0)
     })
   })
+
+  it('+standup for blockers, last24, next24 blocks', () => {
+    assert.equal(formatting.getStandup(msgStandup, formatting.getDataMask(msg, /\@[^*\s]+/), /(blockers:|Blockers:)((.|\n)*)(last24|last 24|Last24|Last 24)/), ' Need a review \n ') // eslint-disable-line no-useless-escape
+    assert.equal(formatting.getStandup(msgStandup, formatting.getDataMask(msg, /\@[^*\s]+/), /(last24:|last 24:|Last24:|Last 24:)((.|\n)*)(next24|next 24|Next24|Next 24)/), ' tested bot \n ') // eslint-disable-line no-useless-escape
+    assert.equal(formatting.getStandup(msgStandup, formatting.getDataMask(msg, /\@[^*\s]+/), /(next24:|next 24:|Next24:|Next 24:)((.|\n)*)/), ' will test bot') // eslint-disable-line no-useless-escape
+  })
+
   it('return +standups gdocs url', () => {
     return room.user.say('mikanebu', 'bot standups').then(() => {
       assert.equal(room.messages[1][1].substr(0, 14), '@mikanebu http')

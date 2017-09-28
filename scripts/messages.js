@@ -98,7 +98,10 @@ const formatMessage = (message, callback) => {
       room: room.name,
       standup: formatting.removeFromMessage(msg, assignees),
       integrity: formatting.removeFromMessage(msg, assignees),
-      promise: formatting.removeFromMessage(msg, assignees)
+      promise: formatting.removeFromMessage(msg, assignees),
+      blockers: '\n' + formatting.getStandup(message.text, action, /(blockers:|Blockers:)((.|\n)*)(last24|last 24|Last24|Last 24)/),
+      last24: formatting.getStandup(message.text, action, /(last24:|last 24:|Last24:|Last 24:)((.|\n)*)(next24|next 24|Next24|Next 24)/),
+      next24: formatting.getStandup(message.text, action, /(next24:|next 24:|Next24:|Next 24:)((.|\n)*)/) + '\n'
     })
   })
 }

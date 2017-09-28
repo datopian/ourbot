@@ -23,10 +23,10 @@ const removeFromMessage = (text, rem) => {
 }
 
 const getStandup = (text, action, mask) => {
-  text = text.replace(action, '').trim()
+  text = text.replace(action, '').trim().replace(/[^\S\r\n]+/g, ' ')
   const standup = text.match(mask)
   if (standup !== null) {
-    return standup[1]
+    return standup[2]
   }
   return ''
 }
