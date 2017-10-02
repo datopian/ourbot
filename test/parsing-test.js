@@ -22,6 +22,7 @@ describe('Messages parsing', () => {
   let createIssue
   let createMilestone
   let closeMilestone
+  let listMilestones
   beforeEach(() => {
     auth = sinon.stub(async, 'series').callsFake((arr, cb) => {
       cb(null, [null, {
@@ -47,6 +48,7 @@ describe('Messages parsing', () => {
     createIssue = sinon.stub(issue, 'createIssue').resolves({data: {number: 'test'}})
     createMilestone = sinon.stub(milestone, 'createMilestone').resolves({data: {number: 'test'}})
     closeMilestone = sinon.stub(milestone, 'closeMilestone').resolves({data: {number: 'test'}})
+    listMilestones = sinon.stub(milestone, 'listMilestones').resolves({data: [{title: 'Backlog'}]})
     sendMsg = sinon.stub(messages, 'sendMessage')
     sendGst = sinon.stub(messages, 'sendGist')
     getRoom = sinon.stub(formatting, 'getRoom').resolves({name: 'test', group: {name: 'Datopian'}})
@@ -61,12 +63,13 @@ describe('Messages parsing', () => {
     createIssue.restore()
     createMilestone.restore()
     closeMilestone.restore()
+    listMilestones.restore()
     sendMsg.restore()
     sendGst.restore()
     getRoom.restore()
   })
   it('create issue', () => {
-    return room.user.say('mikanebu', `bot issue "This is test issue" about "We want to test" in "datahq/docs""`).then(() => {
+    return room.user.say('mikanebu', `bot issue "This is test issue" about "We want to test" in "datahq/docs"`).then(() => {
       assert.equal(createIssue.callCount, 1)
       assert.equal(room.messages[1][1].substr(0, 15), '@mikanebu Issue')
     })
@@ -163,7 +166,7 @@ describe('Messages parsing', () => {
     })
   })
   it('close milestone with typo', () => {
-    return room.user.say('mikanebu', `bot2 close milestone "13 Jan 2018" in "datahq/docs"`).then(() => {
+    return room.user.say('mikanebu', `bot1 close milestone "13 Jan 2018" in "datahq/docs"`).then(() => {
       assert.equal(closeMilestone.callCount, 0)
     })
   })

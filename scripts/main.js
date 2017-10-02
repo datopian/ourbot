@@ -12,7 +12,7 @@ module.exports = robot => {
   const config = require('../config.json')
   const messages = require('./messages.js').messages
   const formatting = require('./formatting.js').formatting
-  const {createMilestone, closeMilestone} = require('./milestone.js')
+  const {createMilestone, closeMilestone, listMilestones} = require('./milestone.js')
   const {createIssue} = require('./issue.js')
   const moment = require('moment')
   const fs = require('fs')
@@ -105,24 +105,75 @@ module.exports = robot => {
     }
   })
 
-  robot.hear(/bot issue "([^"]+)"(?: (?:about|regarding|re|body|description) "([^"]+)")?(?: in "([\w\d-_]+)(?:\/([\w\d-_]+))?")/i, res => {
-    const title = res.match[1]
-    const body = res.match[2]
-    const org = res.match[3]
-    const repo = res.match[4]
-    createIssue(title, body, org, repo).then(info => {
-      res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
-    })
+  robot.hear(/bot issue "([^"]+)" about "([^"]+)" in "([\w\d-_]+)(?:\/([\w\d-_]+))?" to "([^"]+)"|bot issue "([^"]+)" about "([^"]+)" in "([\w\d-_]+)(?:\/([\w\d-_]+))?"/i, res => {
+    if (res.match[5]) {
+      const title = res.match[1]
+      const body = res.match[2]
+      const org = res.match[3]
+      const repo = res.match[4]
+      const milestoneTitle = res.match[5]
+      listMilestones(org, repo).then(info => {
+        info.data.forEach(milestones => {
+          if (milestones.title === milestoneTitle) {
+            const milestone = milestones.number
+            createIssue(title, body, org, repo, milestone).then(info => {
+              res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+            })
+          }
+        })
+      })
+    } else {
+      const title = res.match[6]
+      const body = res.match[7]
+      const org = res.match[8]
+      const repo = res.match[9]
+      const milestoneTitle = 'Backlog'
+      listMilestones(org, repo).then(info => {
+        info.data.forEach(milestones => {
+          if (milestones.title === milestoneTitle) {
+            const milestone = milestones.number
+            createIssue(title, body, org, repo, milestone).then(info => {
+              res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+            })
+          }
+        })
+      })
+    }
   })
 
-  robot.hear(/bot issue "([^"]+)"?(?: in "([\w\d-_]+)(?:\/([\w\d-_]+))?")/i, res => {
-    const title = res.match[1]
-    const org = res.match[2]
-    const repo = res.match[3]
+  robot.hear(/bot issue "([^"]+)" in "([\w\d-_]+)(?:\/([\w\d-_]+))?" to "([^"]+)"|bot issue "([^"]+)" in "([\w\d-_]+)(?:\/([\w\d-_]+))?"/i, res => {
     const body = ''
-    createIssue(title, body, org, repo).then(info => {
-      res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
-    })
+    if (res.match[4]) {
+      const title = res.match[1]
+      const org = res.match[2]
+      const repo = res.match[3]
+      const milestoneTitle = res.match[4]
+      listMilestones(org, repo).then(info => {
+        info.data.forEach(milestones => {
+          if (milestones.title === milestoneTitle) {
+            const milestone = milestones.number
+            createIssue(title, body, org, repo, milestone).then(info => {
+              res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+            })
+          }
+        })
+      })
+    } else {
+      const title = res.match[5]
+      const org = res.match[6]
+      const repo = res.match[7]
+      const milestoneTitle = 'Backlog'
+      listMilestones(org, repo).then(info => {
+        info.data.forEach(milestones => {
+          if (milestones.title === milestoneTitle) {
+            const milestone = milestones.number
+            createIssue(title, body, org, repo, milestone).then(info => {
+              res.reply('Issue created at https://github.com/' + org + '/' + repo + '/issues/' + info.data.number)
+            })
+          }
+        })
+      })
+    }
   })
 
   robot.hear(/bot help|bot/i, res => {

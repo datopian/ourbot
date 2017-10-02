@@ -61,7 +61,19 @@ const closeMilestone = (title, owner, repo) => {
   }
 }
 
+// Create milestones all
+const listMilestones = (owner, repo) => {
+  const issueObj = new Issue(owner + '/' + repo, {token: process.env.GITHUB_TOKEN})
+  const options = {
+    state: 'open',
+    sort: 'due_on',
+    direction: 'asc'
+  }
+  return issueObj.listMilestones(options)
+}
+
 module.exports = {
   createMilestone,
-  closeMilestone
+  closeMilestone,
+  listMilestones
 }
