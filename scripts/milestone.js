@@ -29,7 +29,7 @@ const createMilestone = (title, myDate, owner, repo) => {
 }
 
 const closeMilestone = (title, owner, repo) => {
-  if (!owner || !repo) {
+  if (!owner && !repo) {
     config.repos.forEach(repo => {
       const issueObj = new Issue(repo.owner + '/' + repo.repo, {token: process.env.GITHUB_TOKEN})
       issueObj.listMilestones().then(result => {

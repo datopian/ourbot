@@ -42,6 +42,8 @@
         }
     },
     "repos": [
+      {"owner": "datahq", "repo": "data-desktop"},
+      {"owner": "datahq", "repo": "planner"},
       {"owner": "datahq", "repo": "docs"},
       {"owner": "datahq", "repo": "datahub-cli"},
       {"owner": "datahq", "repo": "frontend"},
@@ -53,10 +55,10 @@
       {"owner": "datahq", "repo": "assembler"},
       {"owner": "datahq", "repo": "pm"},
       {"owner": "datahq", "repo": "specstore"},
-      {"owner": "datahq", "repo": "core-datasets-tools"},
       {"owner": "datahq", "repo": "resolver"},
       {"owner": "frictionlessdata", "repo": "datapackage-render-js"},
       {"owner": "datahq", "repo": "frontend-showcase-js"},
-      {"owner": "datahq", "repo": "data.js"}
+      {"owner": "datahq", "repo": "data.js"},
+      {"owner": "datahq", "repo": "datapackage-normalize-js "}
     ]
 }
