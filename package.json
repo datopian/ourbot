@@ -16,7 +16,7 @@
     "csprng": "^0.1.2",
     "dotenv": "^4.0.0",
     "gists": "^0.1.2",
-    "github-api": "^3.0.0",
+    "github-api": "3.0.0",
     "github-base": "^0.5.4",
     "google-spreadsheet": "^2.0.3",
     "hubot": "^2.19.0",
