@@ -59,6 +59,6 @@
       {"owner": "frictionlessdata", "repo": "datapackage-render-js"},
       {"owner": "datahq", "repo": "frontend-showcase-js"},
       {"owner": "datahq", "repo": "data.js"},
-      {"owner": "datahq", "repo": "datapackage-normalize-js "}
+      {"owner": "datahq", "repo": "datapackage-normalize-js"}
     ]
 }
