@@ -65,6 +65,13 @@ const sendMessage = (message, dest, callback) => {
               }
               callback(info)
             })
+          } else if (res.action === 'feedback' && worksheet.title === 'feedback') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
           }
         })
       } else {

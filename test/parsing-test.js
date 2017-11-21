@@ -44,6 +44,9 @@ describe('Messages parsing', () => {
           },
           {
             id: '6', title: 'outcomes', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
+          },
+          {
+            id: '7', title: 'feedback', _links: {'http://schemas.google.com/visualization/2008#visualizationApi': 'https://docs.google.com/spreadsheets/d/1w4LBF6wbRNVynAk8cQURyz8yZCbTw5hPwcqr87S46hY/gviz/tq?gid=0'}
           }
         ]
       }])
@@ -75,6 +78,18 @@ describe('Messages parsing', () => {
     return room.user.say('mikanebu', `bot issue "This is test issue" about "We want to test" in "datahq/docs"`).then(() => {
       assert.equal(createIssue.callCount, 1)
       assert.equal(room.messages[1][1].substr(0, 15), '@mikanebu Issue')
+    })
+  })
+  it('+feedback', () => {
+    return room.user.say('mikanebu', '+feedback @anuveyatsu In general, it looks good').then(() => {
+      assert.equal(sendMsg.callCount, 1)
+      assert.equal(sendGst.callCount, 0)
+    })
+  })
+  it('return +feedbacks gdocs url', () => {
+    return room.user.say('mikanebu', 'bot feedback').then(() => {
+      assert.equal(room.messages[1][1].substr(0, 14), '@mikanebu http')
+      assert.equal((room.messages).length, 2)
     })
   })
   it('+outcome', () => {

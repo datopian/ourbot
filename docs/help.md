@@ -14,7 +14,7 @@
   
 `bot issue "title" in "myorg/myrepo"` - Create an issue without content on github
   - *title* - the title of the issue
-    
+`bot feedback` - Return Google SpreadSheet url for tag `+feedback`
 `bot links` - Return Google SpreadSheet url for tag `+link`
 `bot map me <query>` - Returns a map view of the area returned by query.
 `bot outcomes` - Return Google SpreadSheet url for tag `+outcome`
@@ -27,6 +27,6 @@
 `!thank user` - Motivate user 
 
 ### Tags
-In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`, `+promise`, `+integrity`, `+outcome`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+link`, `+standup`, `+promise`, `+integrity`, `+outcome`, `+feedback`
   - *+outcome* consists of 3 main attributes separated by comma. For example, *+outcome 100%,80%,50%* 
   The order should be: preparation, done, satisfaction/felt. In total score is 10(3,4,3).

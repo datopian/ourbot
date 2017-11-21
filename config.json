@@ -43,6 +43,10 @@
         "+outcome": {
             "action": "log",
             "dest": ["gdocDatopian"]
+        },
+        "+feedback": {
+            "action": "log",
+            "dest": ["gdocDatopian"]
         }
     },
     "repos": [

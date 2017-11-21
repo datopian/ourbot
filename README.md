@@ -65,9 +65,10 @@ bot standups
 bot todos
 bot promises
 bot outcomes
+bot feedback
 ```
 
-In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`, `+integrity`, `+promise`, `+outcome`
+In your chat channel tag at start, middle or end of a message: `+todo`, `+standup`, `+examples`, `+link`, `+integrity`, `+promise`, `+outcome`, `+feedback`
 - `+outcome*` consists of 3 main attributes separated by comma. For example, `+outcome 100%,80%,50%`
 The order should be: preparation, done, satisfaction/felt. In total 10 score(3,4,3).
 Bot will respond with the total score: `Outcome recorded: your score was 7.5/10`

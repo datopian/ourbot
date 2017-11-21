@@ -196,14 +196,15 @@ module.exports = robot => {
     }
   })
 
-  robot.hear(/bot todos|bot standups|bot links|bot promises|bot integrities|bot outcomes/i, res => {
+  robot.hear(/bot todos|bot standups|bot links|bot promises|bot integrities|bot outcomes|bot feedback/i, res => {
     const tags = [
       {tag: '+todo', command: 'todos'},
       {tag: '+standup', command: 'standups'},
       {tag: '+link', command: 'links'},
       {tag: '+promise', command: 'promises'},
       {tag: '+integrity', command: 'integrities'},
-      {tag: '+outcome', command: 'outcomes'}
+      {tag: '+outcome', command: 'outcomes'},
+      {tag: '+feedback', command: 'feedback'}
     ]
     const message = res.message.text.split(' ')
     tags.forEach(tag => {
@@ -240,6 +241,9 @@ module.exports = robot => {
                               res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
                               break
                             case 'outcomes' | 'bot outcomes':
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            case 'feedback' | 'bot feedback':
                               res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
                               break
                             default:
