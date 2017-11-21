@@ -39,6 +39,10 @@
         "+promise": {
             "action": "log",
             "dest": ["gdocDatopian","gdocArtErthTech"]
+        },
+        "+outcome": {
+            "action": "log",
+            "dest": ["gdocDatopian"]
         }
     },
     "repos": [

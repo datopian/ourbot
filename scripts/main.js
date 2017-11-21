@@ -29,10 +29,17 @@ module.exports = robot => {
             for (let i = 0; i < config.monitor[message].dest.length; i++) {
               ref = config.monitor[message].dest[i]
               if (room.group.name === config.docs[ref].room) {
-                messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
-                  console.log('Added at: ' + info['app:edited'])
-                  res.reply(message + ' recorded')
-                })
+                if (message === '+outcome') {
+                  messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
+                    console.log('Added at: ' + info['app:edited'])
+                    res.reply('Outcome recorded: your score was ' + info.total + '/10')
+                  })
+                } else {
+                  messages[config.docs[ref].fun](res.message, config.docs[ref].dest, info => {
+                    console.log('Added at: ' + info['app:edited'])
+                    res.reply(message + ' recorded')
+                  })
+                }
               }
             }
           })
@@ -189,13 +196,14 @@ module.exports = robot => {
     }
   })
 
-  robot.hear(/bot todos|bot standups|bot links|bot promises|bot integrities/i, res => {
+  robot.hear(/bot todos|bot standups|bot links|bot promises|bot integrities|bot outcomes/i, res => {
     const tags = [
       {tag: '+todo', command: 'todos'},
       {tag: '+standup', command: 'standups'},
       {tag: '+link', command: 'links'},
       {tag: '+promise', command: 'promises'},
-      {tag: '+integrity', command: 'integrities'}
+      {tag: '+integrity', command: 'integrities'},
+      {tag: '+outcome', command: 'outcomes'}
     ]
     const message = res.message.text.split(' ')
     tags.forEach(tag => {
@@ -229,6 +237,9 @@ module.exports = robot => {
                               res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
                               break
                             case 'promises' | 'bot promises':
+                              res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
+                              break
+                            case 'outcomes' | 'bot outcomes':
                               res.reply('https://docs.google.com/spreadsheets/d/' + gdoc + '#' + gid)
                               break
                             default:

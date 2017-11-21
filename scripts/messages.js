@@ -58,6 +58,13 @@ const sendMessage = (message, dest, callback) => {
               }
               callback(info)
             })
+          } else if (res.action === 'outcome' && worksheet.title === 'outcomes') {
+            gdocs.addRow(worksheet.id, res, (err, info) => {
+              if (err) {
+                console.log(err)
+              }
+              callback(info)
+            })
           }
         })
       } else {
@@ -88,6 +95,10 @@ const formatMessage = (message, callback) => {
     assignees = poster
   }
   const msg = formatting.removeFromMessage(message.text, action)
+  const prepPoint = parseFloat((parseFloat(msg.split(',')[0], 2) / 100.0) * 3, 10)
+  const donePoint = parseFloat((parseFloat(msg.split(',')[1], 2) / 100.0) * 4, 10)
+  const satisfactionPoint = parseFloat((parseFloat(msg.split(',')[2], 2) / 100.0) * 3, 10)
+  const total = satisfactionPoint + prepPoint + donePoint
   formatting.getRoom(message.room).then(room => {
     callback({
       action: action.substr(1),
@@ -101,7 +112,11 @@ const formatMessage = (message, callback) => {
       promise: formatting.removeFromMessage(msg, assignees),
       blockers: '\n' + formatting.getStandup(message.text, action, /(blockers:|Blockers:)((.|\n)*)(last24|last 24|Last24|Last 24)/),
       last24: formatting.getStandup(message.text, action, /(last24:|last 24:|Last24:|Last 24:)((.|\n)*)(next24|next 24|Next24|Next 24)/),
-      next24: formatting.getStandup(message.text, action, /(next24:|next 24:|Next24:|Next 24:)((.|\n)*)/) + '\n'
+      next24: formatting.getStandup(message.text, action, /(next24:|next 24:|Next24:|Next 24:)((.|\n)*)/) + '\n',
+      prep: msg.split(',')[0],
+      done: msg.split(',')[1],
+      satisfaction: msg.split(',')[2],
+      total
     })
   })
 }
