@@ -42,11 +42,11 @@
         },
         "+outcome": {
             "action": "log",
-            "dest": ["gdocDatopian"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         },
         "+feedback": {
             "action": "log",
-            "dest": ["gdocDatopian"]
+            "dest": ["gdocDatopian","gdocArtErthTech"]
         }
     },
     "repos": [
