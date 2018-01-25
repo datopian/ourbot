@@ -70,6 +70,10 @@
       {"owner": "datahq", "repo": "frontend-functional-tests"},
       {"owner": "datahq", "repo": "datahub-client"},
       {"owner": "datahq", "repo": "filemanager"},
-      {"owner": "datahq", "repo": "datapackage-normalize-js"}
+      {"owner": "datahq", "repo": "datapackage-normalize-js"},
+      {"owner": "datahq", "repo": "awesome-data"},
+      {"owner": "datahq", "repo": "data-import-ui"},
+      {"owner": "datahq", "repo": "events"},
+      {"owner": "datahq", "repo": "datahub-qa"}
     ]
 }
